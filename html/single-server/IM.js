@@ -8,10 +8,10 @@ window.IM = {
                 return false
             }
             IM.socket = new WebSocket(window.wsConfig.wsPort);
-            IM.socket.onopen = IM.onOpen
-            IM.socket.onclose = IM.onClose
-            IM.socket.onerror = IM.onError
-            IM.socket.onmessage = IM.onMessage
+            IM.socket.onopen = IM.onOpen;
+            IM.socket.onclose = IM.onClose;
+            IM.socket.onerror = IM.onError;
+            IM.socket.onmessage = IM.onMessage;
         } else {
 
         }
@@ -35,7 +35,7 @@ window.IM = {
 
     },
     onMessage: function (e) {
-
+        console.log(e.data)
     },
     keepAlive() {
         IM.send("heartBeat")
