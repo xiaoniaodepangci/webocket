@@ -180,6 +180,7 @@
     </dependencyManagement>
 
     <modules>
+        <module>single-server</module>
     </modules>
 
     <dependencies>
