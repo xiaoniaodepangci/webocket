@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
+
+    <script src="../common/jquery-3.5.1.js"></script>
+    <link href="../common/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../common/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
+    <script src="../common/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col-md-6">
+        <form>
+            <div class="form-group">
+                <label for="wsPort">websocket地址</label>
+                <input type="text" class="form-control" id="wsPort" readonly/>
+            </div>
+            <div class="form-group">
+                <label for="account">你的标志--可以是任意字符串--用于标记你的唯一身份(点对点单聊会使用到)</label>
+                <input type="text" class="form-control" id="account" >
+            </div>
+            <div class="form-group">
+                <label for="content">你要发送的消息体</label>
+                <input type="text" class="form-control" id="content" placeholder="content">
+            </div>
+            <button type="button" id="send" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-6" style="border: 1px solid #e3e3e3;height: 100%"></div>
+</div>
+
 
 </body>
+<script src="../common/config.js" type="text/javascript"></script>
+<script src="IM.js" type="text/javascript"></script>
+<script type="text/javascript">
 
-<script>
-    
+        $("#wsPort").val(window.wsConfig.wsPort)
+
 </script>
 </html>
