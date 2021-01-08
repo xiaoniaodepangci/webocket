@@ -1,0 +1,4 @@
+websocket:
+  endpoint: /ws
+  cross-origins:
+    - *

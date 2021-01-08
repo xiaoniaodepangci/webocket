@@ -13,7 +13,6 @@
     <description>websocket的聊天构建</description>
 
     <properties>
-        <tms.version>2.1.0</tms.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -159,54 +158,6 @@
                 <version>${common-pool.version}</version>
             </dependency>
 
-            <!-- 核心模块 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-core</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 接口模块 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-swagger</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 安全模块 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-security</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 权限范围 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-datascope</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 日志记录 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-log</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 缓存服务 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-common-redis</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
-
-            <!-- 系统接口 -->
-            <dependency>
-                <groupId>com.hc</groupId>
-                <artifactId>tms-api-system</artifactId>
-                <version>${tms.version}</version>
-            </dependency>
             <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
             <dependency>
                 <groupId>com.alibaba</groupId>
