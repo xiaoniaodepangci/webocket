@@ -26,3 +26,4 @@ hs_err_pid*
 /single-server/target/
 ./*.iml
 /websocket-woll.iml
+/html/.idea/

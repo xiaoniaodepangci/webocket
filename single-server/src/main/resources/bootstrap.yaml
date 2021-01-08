@@ -1,0 +1,16 @@
+server:
+  port: 2333
+spring:
+  application:
+    name: single-server
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        shared-configs:
+          - dataId: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        server-addr: 127.0.0.1:1110
+        file-extension: yml
+      discovery:
+        server-addr: 127.0.0.1:1110

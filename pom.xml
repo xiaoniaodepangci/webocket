@@ -176,6 +176,8 @@
                 <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
