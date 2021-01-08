@@ -1,5 +1,6 @@
 package com.him.woll.singleserver.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
@@ -10,7 +11,8 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
  * @version 1.0
  * @date 21/01/08 16:44
  */
-public class WebSocketConfiger implements WebSocketConfigurer {
+@Configuration
+public class IWebSocketConfigurer implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
