@@ -40,6 +40,8 @@ public class MyWebSocketHandler implements WebSocketHandler {
         String payload = (String) webSocketMessage.getPayload();
         System.out.println("载荷=>" + payload);
         System.out.println("发送方id=" + webSocketSession.getAttributes().get("id"));
+
+        // TODO 消息体实体 消息类型枚举等
         TextMessage textMessage = null;
         if (payload.equals("heartBeat")) {
             textMessage = new TextMessage("心跳包已收到");
