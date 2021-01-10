@@ -1,6 +1,7 @@
 package com.him.woll.singleserver.config;
 
 import com.him.woll.singleserver.handler.MyWebSocketHandler;
+import com.him.woll.singleserver.interceptors.MyHandshakeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +25,12 @@ import java.util.List;
 public class IWebSocketConfigurer implements WebSocketConfigurer {
     @Autowired
     private IWebSocketConfig iWebSocketConfig;
-
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         List<String> crossOrigins = iWebSocketConfig.getCrossOrigins();
         registry.addHandler(webSocketHandler(), iWebSocketConfig.getEndpoint())
-                .setAllowedOrigins(iWebSocketConfig.getCrossOrigins().toArray(new String[0]));
+                .setAllowedOrigins(iWebSocketConfig.getCrossOrigins().toArray(new String[0]))
+                .addInterceptors(new MyHandshakeInterceptor());
     }
 
     /**

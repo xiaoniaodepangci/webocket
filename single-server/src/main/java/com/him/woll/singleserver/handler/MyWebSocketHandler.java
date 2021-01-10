@@ -1,9 +1,20 @@
 package com.him.woll.singleserver.handler;
 
-import org.slf4j.LoggerFactory;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.him.woll.singleserver.config.IWebSocketConfig;
+import com.him.woll.singleserver.constants.MessageConstants;
+import com.him.woll.singleserver.utils.MessagePayloadUtils;
+import com.him.woll.singleserver.entity.MessagePayload;
+import com.him.woll.singleserver.utils.SpringContextUtils;
+import io.micrometer.core.instrument.Meter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.commons.util.IdUtils;
 import org.springframework.web.socket.*;
 
-import javax.swing.text.TabableView;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * @date 20/12/17 11:17
  */
-
+@Slf4j
 public class MyWebSocketHandler implements WebSocketHandler {
 
     /**
@@ -30,25 +41,67 @@ public class MyWebSocketHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession webSocketSession) throws Exception {
-        System.out.println("链接建立");
-        sessionMap.put(String.valueOf(webSocketSession.getAttributes().get("id")), webSocketSession);
+        log.info("链接建立");
+        IWebSocketConfig iWebSocketConfig = SpringContextUtils.getBean(IWebSocketConfig.class);
+        String certificateSign = iWebSocketConfig.getCertificateSign();
+        Object o = webSocketSession.getAttributes().get(certificateSign);
+        if (!ObjectUtils.isEmpty(o)) {
+            sessionMap.put(String.valueOf(o), webSocketSession);
+        } else {
+            Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+            sessionMap.put(String.valueOf(snowflake.nextId()), webSocketSession);
+        }
     }
+
 
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-        System.out.println("服务端收到消息");
-        String payload = (String) webSocketMessage.getPayload();
-        System.out.println("载荷=>" + payload);
-        System.out.println("发送方id=" + webSocketSession.getAttributes().get("id"));
-
-        // TODO 消息体实体 消息类型枚举等
-        TextMessage textMessage = null;
-        if (payload.equals("heartBeat")) {
-            textMessage = new TextMessage("心跳包已收到");
-        } else {
-            textMessage = new TextMessage("消息体已收到==>" + payload);
+        MessagePayload messagePayload = null;
+        try {
+            messagePayload = JSONObject.parseObject((String) webSocketMessage.getPayload(), MessagePayload.class);
+        } catch (Exception e) {
+            log.error(e.toString());
+            webSocketSession.sendMessage(MessagePayloadUtils.parseException());
+            return;
         }
-        webSocketSession.sendMessage(textMessage);
+        if (messagePayload == null) {
+            webSocketSession.sendMessage(MessagePayloadUtils.parseException());
+            return;
+        }
+
+        String sender = messagePayload.getSender();
+        String receiver = messagePayload.getReceiver();
+        String type = messagePayload.getType();
+        String content = messagePayload.getContent();
+        // 心跳
+        if (MessageConstants.MESSAGE_TYPE_HEART_BEAT.equals(type)) {
+            log.info(messagePayload.toString());
+            return;
+        }
+        // 广播
+        if (MessageConstants.MESSAGE_TYPE_BROADCAST.equals(type)) {
+            for (WebSocketSession localWebSocketSession : sessionMap.values()) {
+                if (localWebSocketSession.isOpen()) {
+                    localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender, receiver, content));
+                }
+            }
+            return;
+        }
+        // 点对点
+        if (MessageConstants.MESSAGE_TYPE_NORMAL.equals(type)) {
+            WebSocketSession localWebSocketSession = sessionMap.getOrDefault(receiver, null);
+            if (localWebSocketSession != null) {
+                localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender, receiver, content));
+            }
+            return;
+        }
+        // 发送者空值检测
+        if (StringUtils.isBlank(sender)) {
+            webSocketSession.sendMessage(MessagePayloadUtils.noSenderException());
+        }
+        if (StringUtils.isBlank(receiver)) {
+            webSocketSession.sendMessage(MessagePayloadUtils.noReceiverException());
+        }
     }
 
     @Override
@@ -65,10 +118,11 @@ public class MyWebSocketHandler implements WebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
-        Long id = (Long) webSocketSession.getAttributes().get("id");
-        System.out.println(id);
-        System.out.println("链接断开");
-        sessionMap.remove(id.toString());
+        IWebSocketConfig iWebSocketConfig = SpringContextUtils.getBean(IWebSocketConfig.class);
+        String certificateSign = iWebSocketConfig.getCertificateSign();
+        String o = (String) webSocketSession.getAttributes().get(certificateSign);
+        sessionMap.remove(o);
+        log.warn(o + "链接断开");
         System.out.println(sessionMap);
     }
 

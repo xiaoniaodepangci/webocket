@@ -1,17 +1,19 @@
 window.IM = {
     socket: null,
-    init: function () {
+    token: '',
+    init: function (token, onOpen, onClose, onMessage, onError) {
+        IM.token = token
         if (window.WebSocket) {
             if (IM.socket !== null &&
                 IM.socket !== undefined &&
                 IM.socket.readyState === WebSocket.OPEN) {
                 return false
             }
-            IM.socket = new WebSocket(window.wsConfig.wsPort);
-            IM.socket.onopen = IM.onOpen;
-            IM.socket.onclose = IM.onClose;
-            IM.socket.onerror = IM.onError;
-            IM.socket.onmessage = IM.onMessage;
+            IM.socket = new WebSocket(window.wsConfig.wsPort + "?token=" + this.token);
+            IM.socket.onopen = IM.onOpen
+            IM.socket.onclose = IM.onClose
+            IM.socket.onerror = IM.onError
+            IM.socket.onmessage = IM.onMessage
         } else {
 
         }
@@ -22,11 +24,14 @@ window.IM = {
             IM.socket.readyState === WebSocket.OPEN) {
             IM.socket.send(msg);
         } else {
-            IM.init();
+            IM.init(this.token, onOpen, onClose, onMessage, onError);
         }
     },
     onOpen: function (e) {
-        setInterval("IM.keepAlive()", 10000)
+        console.log("kaiqi")
+
+        // setInterval("IM.keepAlive()", 10000)
+
     },
     onClose: function (e) {
 
@@ -35,9 +40,33 @@ window.IM = {
 
     },
     onMessage: function (e) {
-        console.log(e.data)
+
+
     },
     keepAlive() {
-        IM.send("heartBeat")
+        let type = messageType.MESSAGE_TYPE_HEART_BEAT
+        let messagePayload = new MessagePayload("", "", "", type)
+        IM.send(JSON.stringify(messagePayload))
     }
+}
+
+class MessagePayload {
+    /**
+     * @param sender 发送者
+     * @param receiver 接收者
+     * @param content 消息体
+     * @param type 消息类型
+     * */
+    constructor(sender, receiver, content, type) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.content = content;
+        this.type = type;
+    }
+}
+
+var messageType = {
+    MESSAGE_TYPE_HEART_BEAT: "heartBeat",
+    MESSAGE_TYPE_NORMAL: "normal",
+    MESSAGE_TYPE_BROADCAST: "broadcast"
 }

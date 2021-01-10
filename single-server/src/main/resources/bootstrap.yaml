@@ -14,3 +14,4 @@ spring:
         file-extension: yml
       discovery:
         server-addr: 127.0.0.1:1110
+
