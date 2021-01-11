@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 08/01/2021 23:01:32
+ Date: 11/01/2021 18:18:54
 */
 
 SET NAMES utf8mb4;
@@ -40,12 +40,12 @@ CREATE TABLE `config_info`  (
   `c_schema` text CHARACTER SET utf8 COLLATE utf8_bin NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
-INSERT INTO `config_info` VALUES (1, 'single-server-dev.yml', 'DEFAULT_GROUP', 'websocket:\r\n  endpoint: /ws\r\n  cross-origins:\r\n    - \'*\'\r\n\r\nlogging:\r\n  level:\r\n    com.him.woll.singleserver: debug\r\n  file:\r\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-08 12:46:21', '2021-01-08 12:46:21', NULL, '127.0.0.1', '', '', NULL, NULL, NULL, 'yaml', NULL);
+INSERT INTO `config_info` VALUES (1, 'single-server-dev.yml', 'DEFAULT_GROUP', 'websocket:\n  endpoint: /ws\n  cross-origins:\n    - \'*\'\n  certificate-sign: \'token\'\n\nlogging:\n  level:\n    com.him.woll.singleserver: debug\n  file:\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '5e48a8e1b1484fd208f16bff5d141568', '2021-01-08 12:46:21', '2021-01-11 02:50:14', NULL, '127.0.0.1', '', '', '', '', '', 'yaml', '');
 
 -- ----------------------------
 -- Table structure for config_info_aggr
@@ -184,12 +184,13 @@ CREATE TABLE `his_config_info`  (
   INDEX `idx_gmt_create`(`gmt_create`) USING BTREE,
   INDEX `idx_gmt_modified`(`gmt_modified`) USING BTREE,
   INDEX `idx_did`(`data_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '多租户改造' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '多租户改造' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
 INSERT INTO `his_config_info` VALUES (0, 1, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\r\n  endpoint: /ws\r\n  cross-origins:\r\n    - \'*\'\r\n\r\nlogging:\r\n  level:\r\n    com.him.woll.singleserver: debug\r\n  file:\r\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-08 20:46:21', '2021-01-08 12:46:21', NULL, '127.0.0.1', 'I', '');
+INSERT INTO `his_config_info` VALUES (1, 2, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\r\n  endpoint: /ws\r\n  cross-origins:\r\n    - \'*\'\r\n\r\nlogging:\r\n  level:\r\n    com.him.woll.singleserver: debug\r\n  file:\r\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-11 10:50:14', '2021-01-11 02:50:14', NULL, '127.0.0.1', 'U', '');
 
 -- ----------------------------
 -- Table structure for permissions
