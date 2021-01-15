@@ -1,7 +1,8 @@
+
 window.IM = {
     socket: null,
     token: '',
-    init: function (token, onOpen, onClose, onMessage, onError) {
+    init: function (token, onOpen) {
         IM.token = token
         if (window.WebSocket) {
             if (IM.socket !== null &&
@@ -10,7 +11,7 @@ window.IM = {
                 return false
             }
             IM.socket = new WebSocket(window.wsConfig.wsPort + "?token=" + this.token);
-            IM.socket.onopen = IM.onOpen
+            IM.socket.onopen = onOpen
             IM.socket.onclose = IM.onClose
             IM.socket.onerror = IM.onError
             IM.socket.onmessage = IM.onMessage

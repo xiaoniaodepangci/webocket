@@ -80,7 +80,9 @@
     $("#sender").bind("input propertychange change", function (event) {
         $("#wsPort").val(window.wsConfig.wsPort + "?token=" + $("#sender").val())
     })
-
+    function onOpen(e) {
+        console.log("aaaaaaaaaaaaa==================>>>>>>>>>>>>>>>>>>>>")
+    }
     $("#connect").click(() => {
         if (window.WebSocket) {
             if (IM.socket !== null &&
@@ -93,19 +95,15 @@
                 IM.init($("#sender").val())
             } else {
 
-
-                IM.init(timestamp)
+                IM.init(timestamp, onOpen)
                 IM.socket.onmessage = onMessage
-
 
                 $("#wsPort").val(window.wsConfig.wsPort + "?token=" + timestamp)
                 $("#sender").attr("readonly", true).val(timestamp)
             }
         }
     })
-    function onOpen(e) {
 
-    }
     function onClose(e) {
 
     }

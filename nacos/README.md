@@ -4,6 +4,11 @@
 
 编码utf8mb4 utf8mb4_general_ci
 
+执行websocket_config.sql文件
+
+已测试 mysql5.7.30 mysql8.0.21使用websocket_config.sql没有问题
+
+有问题的同学请更新数据库或者把配置拷贝出来放到bootstrap.yml里(这时候就要移除bootstrap.yml的nacos配置 以及nacos依赖)
 ## 配置nacos使用数据库
 ### 在nacos的conf目录修改application.properties
 

@@ -34,6 +34,7 @@
         <common-pool.version>2.6.2</common-pool.version>
         <druid.version>1.2.1</druid.version>
         <hutool.version>5.3.8</hutool.version>
+        <commons.lang3.version>3.11</commons.lang3.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -184,12 +185,20 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>single-server</module>
+        <module>single-server-security</module>
+        <module>single-server-shiro</module>
+        <module>cluster-server-security</module>
+        <module>cluster-server-oauth2</module>
     </modules>
 
     <dependencies>

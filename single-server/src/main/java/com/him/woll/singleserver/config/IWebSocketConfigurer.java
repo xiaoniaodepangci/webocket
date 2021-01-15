@@ -27,7 +27,6 @@ public class IWebSocketConfigurer implements WebSocketConfigurer {
     private IWebSocketConfig iWebSocketConfig;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        List<String> crossOrigins = iWebSocketConfig.getCrossOrigins();
         registry.addHandler(webSocketHandler(), iWebSocketConfig.getEndpoint())
                 .setAllowedOrigins(iWebSocketConfig.getCrossOrigins().toArray(new String[0]))
                 .addInterceptors(new MyHandshakeInterceptor());

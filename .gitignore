@@ -27,3 +27,10 @@ hs_err_pid*
 ./*.iml
 /websocket-woll.iml
 /html/.idea/
+/single-server/src/test/
+/**/**/text/
+/single-server-security/src/test/
+/single-server-shiro/src/test/
+/cluster-server-security/src/test/
+/cluster-server-oauth2/src/test/java/
+/single-server/src/test/
