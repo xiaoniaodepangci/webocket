@@ -34,3 +34,5 @@ hs_err_pid*
 /cluster-server-security/src/test/
 /cluster-server-oauth2/src/test/java/
 /single-server/src/test/
+cluster-server-oauth2/cluster-server-oauth2.iml
+*.iml
