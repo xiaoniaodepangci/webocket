@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.him.woll.singleservershiro.dao.FriendsRequestDao">
+  <resultMap id="BaseResultMap" type="com.him.woll.singleservershiro.entity.FriendsRequest">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="sender" jdbcType="VARCHAR" property="sender" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    <result column="sign_flag" jdbcType="VARCHAR" property="sign_flag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sender, receiver, msg, sign_flag, create_time, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from chat_msg
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from chat_msg
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.him.woll.singleservershiro.entity.FriendsRequest" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into chat_msg (sender, receiver, msg, 
+      sign_flag, create_time, `status`
+      )
+    values (#{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
+      #{sign_flag,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.him.woll.singleservershiro.entity.FriendsRequest" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into chat_msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sender != null">
+        sender,
+      </if>
+      <if test="receiver != null">
+        receiver,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="sign_flag != null">
+        sign_flag,
+      </if>
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sign_flag != null">
+        #{sign_flag,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.him.woll.singleservershiro.entity.FriendsRequest">
+    <!--@mbg.generated-->
+    update chat_msg
+    <set>
+      <if test="sender != null">
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sign_flag != null">
+        sign_flag = #{sign_flag,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.him.woll.singleservershiro.entity.FriendsRequest">
+    <!--@mbg.generated-->
+    update chat_msg
+    set sender = #{sender,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      msg = #{msg,jdbcType=VARCHAR},
+      sign_flag = #{sign_flag,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

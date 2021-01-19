@@ -197,7 +197,11 @@
                 <artifactId>shiro-spring</artifactId>
                 <version>${shiro.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
@@ -213,6 +217,7 @@
         <module>single-server-shiro</module>
         <module>cluster-server-security</module>
         <module>cluster-server-oauth2</module>
+        <module>common</module>
     </modules>
 
     <dependencies>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.him.woll.singleservershiro.mapper.FriendsRequestMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.him.woll.singleservershiro.entity.FriendsRequest">
+        <id column="id" property="id" />
+        <result column="sender" property="sender" />
+        <result column="receiver" property="receiver" />
+        <result column="request_date_time" property="requestDateTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+</mapper>
