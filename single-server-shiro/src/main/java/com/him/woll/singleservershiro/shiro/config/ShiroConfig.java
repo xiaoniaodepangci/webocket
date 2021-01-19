@@ -96,14 +96,9 @@ public class ShiroConfig {
 
 
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-
         securityManager.setRealm(userRealm());
-
         securityManager.setCacheManager(ehCacheManager());
-
-
         return securityManager;
-
     }
 
 
