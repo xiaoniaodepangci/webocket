@@ -22,7 +22,7 @@ public class TestController {
      */
     @GetMapping("/per1")
     @RequiresPermissions("/test/per1")
-    private R per1() {
+    public R per1() {
         return R.ok("per1");
     }
 
@@ -33,7 +33,7 @@ public class TestController {
      */
     @GetMapping("/per2")
     @RequiresPermissions("/test/per2")
-    private R per2() {
+    public R per2() {
         return R.ok("per2");
     }
 }
