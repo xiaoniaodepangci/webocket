@@ -78,7 +78,7 @@ public class GeneratorUtil {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表,不加则全部生成
-        strategy.setInclude(new String[]{"chat_msg", "friends_request", "my_friends", "users"});
+        strategy.setInclude(new String[]{"permission", "role_permission", "role", "user_role"});
         //排除生成的表(排除表设置和生成表设置只能二选一)
         //实体类是否生成lombok模型
         strategy.setEntityLombokModel(true);

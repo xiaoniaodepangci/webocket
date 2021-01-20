@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.him.woll.singleservershiro.common.R;
 import com.him.woll.singleservershiro.entity.Users;
 import com.him.woll.singleservershiro.mapper.UsersMapper;
+import com.him.woll.singleservershiro.shiro.kit.JwtUtil;
 import com.him.woll.singleservershiro.shiro.kit.ShiroKit;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,9 @@ public class SysLoginController {
         if (usersDb == null || !usersDb.getPassword().equals(ShiroKit.md5(users.getPassword(), ""))) {
             return R.error("账号或密码不正确");
         }
-
-        //生成token，并保存到数据库
-//        R r = sysUserTokenService.createToken(user.getUserId());
-        // TODO 签发jwt
-        return null;
+        R r = new R();
+        r.put("accessToken", JwtUtil.createToken(users.getUsername()));
+        return r;
     }
 
 

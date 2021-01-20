@@ -12,4 +12,9 @@ public class ShiroKit {
         p = new Md5Hash(password, salt, 2).toHex();
         return p;
     }
+
+    public static void main(String[] args) {
+        String s = md5("123456", "");
+        System.out.println(s);
+    }
 }
