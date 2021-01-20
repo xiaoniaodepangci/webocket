@@ -36,3 +36,5 @@ hs_err_pid*
 /single-server/src/test/
 cluster-server-oauth2/cluster-server-oauth2.iml
 *.iml
+/single-server-shiro/target/
+/**/target/
