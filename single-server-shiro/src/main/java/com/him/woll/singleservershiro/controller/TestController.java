@@ -1,6 +1,6 @@
 package com.him.woll.singleservershiro.controller;
 
-import com.him.woll.singleservershiro.common.R;
+import com.him.woll.singleservershiro.common.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +22,8 @@ public class TestController {
      */
     @GetMapping("/per1")
     @RequiresPermissions("/test/per1")
-    public R per1() {
-        return R.ok("per1");
+    public Result per1() {
+        return Result.ok("per1");
     }
 
     /**
@@ -33,7 +33,7 @@ public class TestController {
      */
     @GetMapping("/per2")
     @RequiresPermissions("/test/per2")
-    public R per2() {
-        return R.ok("per2");
+    public Result per2() {
+        return Result.ok("per2");
     }
 }

@@ -189,8 +189,8 @@ CREATE TABLE `his_config_info`  (
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
-INSERT INTO `his_config_info` VALUES (0, 1, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\r\n  endpoint: /ws\r\n  cross-origins:\r\n    - \'*\'\r\n\r\nlogging:\r\n  level:\r\n    com.him.woll.singleserver: debug\r\n  file:\r\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-08 20:46:21', '2021-01-08 12:46:21', NULL, '127.0.0.1', 'I', '');
-INSERT INTO `his_config_info` VALUES (1, 2, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\r\n  endpoint: /ws\r\n  cross-origins:\r\n    - \'*\'\r\n\r\nlogging:\r\n  level:\r\n    com.him.woll.singleserver: debug\r\n  file:\r\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-11 10:50:14', '2021-01-11 02:50:14', NULL, '127.0.0.1', 'U', '');
+INSERT INTO `his_config_info` VALUES (0, 1, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\result\n  endpoint: /ws\result\n  cross-origins:\result\n    - \'*\'\result\n\result\nlogging:\result\n  level:\result\n    com.him.woll.singleserver: debug\result\n  file:\result\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-08 20:46:21', '2021-01-08 12:46:21', NULL, '127.0.0.1', 'I', '');
+INSERT INTO `his_config_info` VALUES (1, 2, 'single-server-dev.yml', 'DEFAULT_GROUP', '', 'websocket:\result\n  endpoint: /ws\result\n  cross-origins:\result\n    - \'*\'\result\n\result\nlogging:\result\n  level:\result\n    com.him.woll.singleserver: debug\result\n  file:\result\n    path:  E:\\\\github\\\\websocket-woll\\single-server.log', '3f0a759b6ae4160660b2e1b48eb89eee', '2021-01-11 10:50:14', '2021-01-11 02:50:14', NULL, '127.0.0.1', 'U', '');
 
 -- ----------------------------
 -- Table structure for permissions

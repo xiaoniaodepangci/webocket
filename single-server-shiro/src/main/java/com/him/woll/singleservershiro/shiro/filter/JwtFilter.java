@@ -1,7 +1,7 @@
 package com.him.woll.singleservershiro.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.him.woll.singleservershiro.common.R;
+import com.him.woll.singleservershiro.common.Result;
 import com.him.woll.singleservershiro.shiro.token.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -14,7 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
 /**
@@ -92,7 +91,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpResponse.setHeader("Access-Control-Allow-Origin", ((HttpServletRequest) request).getHeader("Origin"));
         httpResponse.setCharacterEncoding(String.valueOf(Charset.defaultCharset()));
-        String json = JSONObject.toJSONString(R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, message));
+        String json = JSONObject.toJSONString(Result.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, message));
 
         try {
             httpResponse.getWriter().print(json);

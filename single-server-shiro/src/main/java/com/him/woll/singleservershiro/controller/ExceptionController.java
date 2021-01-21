@@ -1,12 +1,9 @@
 package com.him.woll.singleservershiro.controller;
 
-import com.him.woll.singleservershiro.common.R;
+import com.him.woll.singleservershiro.common.Result;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authz.UnauthorizedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +20,14 @@ public class ExceptionController {
 
     // 捕捉shiro的异常
     @ExceptionHandler(ShiroException.class)
-    public R handle401() {
-        return R.error(401, "您没有权限访问！");
+    public Result handle401() {
+        return Result.error(401, "您没有权限访问！");
     }
 
     // 捕捉其他所有异常
     @ExceptionHandler(Exception.class)
-    public R globalException(HttpServletRequest request, Throwable ex) {
-        return R.error(getStatus(request).value(), "访问出错，无法访问: " + ex.getMessage());
+    public Result globalException(HttpServletRequest request, Throwable ex) {
+        return Result.error(getStatus(request).value(), "访问出错，无法访问: " + ex.getMessage());
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {

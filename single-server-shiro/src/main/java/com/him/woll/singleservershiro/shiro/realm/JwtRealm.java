@@ -68,7 +68,7 @@ public class JwtRealm extends AuthorizingRealm {
 
         //验证通过返回一个封装了用户信息的AuthenticationInfo实例即可。
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                jwtToken.getPrincipal(),
+                users,
                 jwtToken.getPrincipal(),
                 getName()
         );
