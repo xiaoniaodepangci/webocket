@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../common/jquery-1.8.3.min.js"></script>
+    <script src="../common/layui/layui.all.js"></script>
+    <link href="../common/layui/css/layui.css" rel="stylesheet">
+</head>
+<style>
+    #chatButton {
+        position: fixed;
+        right: 0px;
+        bottom: 0px;
+    }
+</style>
+<body>
+<button id="chatButton" type="button" class="layui-btn">Chat</button>
+</body>
+<script>
+    $(() => {
+        var item = localStorage.getItem("token");
+        if (item === null || item === undefined || item.length === 0) {
+            layer.confirm('未登录！即将跳转至登录页', {
+                btn: ['确定'] //按钮
+            }, function () {
+                location.href = "./index.html"
+            });
+        }
+        $("#chatButton").click(() => {
+
+
+        })
+    })
+</script>
+</html>
