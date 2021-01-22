@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>friends</title>
+
+    <style>
+        .friendItemBox {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            padding: 5px 0px;
+            cursor: pointer;
+        }
+
+        .friendItemBox:hover {
+            background: #e8e8e8;
+        }
+
+        .friendItemBox .avatar {
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .friendItemBox img {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .friendItemBox .nameAndMsg {
+            padding: 0px 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .friendItemBox .nameAndMsg div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+    <script src="../common/jquery-1.8.3.min.js"></script>
+    <script src="../common/config.js"></script>
+    <script src="../common/common.js"></script>
+    <script src="../common/layui/layui.all.js"></script>
+
+</head>
+<body>
+<div id="list">
+
+</div>
+<!--<div class="friendItemBox">-->
+<!--    <div class="avatar">-->
+<!--        <img src="../common/img/avatar.jpg" alt="">-->
+<!--    </div>-->
+<!--    <div class="nameAndMsg">-->
+<!--        <div>{{name}}</div>-->
+<!--        <div>{{msg}}</div>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+
+<script>
+    $(() => {
+        commonAjax('/myFriends/').then((res) => {
+            console.log(res.list);
+            var list = res.list;
+            var html = ''
+            if (list.length !== 0) {
+                list.forEach(item => {
+                    html += '<div class="friendItemBox" userId="' + item.id + '">' +
+                        '    <div class="avatar">' +
+                        '        <img src="../common/img/avatar.jpg" alt="">' +
+                        '    </div>' +
+                        '    <div class="nameAndMsg">' +
+                        '        <div class="nickname">' + item.nickname + '</div>' +
+                        '        <div class="snapshot"></div>' +
+                        '    </div>' +
+                        '</div>'
+                })
+                $("#list").html($(html))
+            }
+        })
+        $("#list").on("click", ".friendItemBox", function (e) {
+            var nickname = $(this).find(".nickname").html();
+            parent.layer.open({
+                title: nickname,
+                type: 2,
+                area: ['600px', '450px'],
+                fixed: false, //不固定
+                maxmin: true,
+                anim: 5,
+                isOutAnim: false,
+                content: './chating.html'
+            });
+        });
+    })
+</script>
+</html>

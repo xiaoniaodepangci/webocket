@@ -10,10 +10,20 @@ function commonAjax(url, data, type, serialize, async, contentType) {
     }
     return $.ajax({
         contentType: contentType,
+        headers: {
+            token: localStorage.getItem("token")
+        },
         type: type,
         dataType: "json",
         async: true,
-        url: url,
+        url: resolveUrl(url),
         data: serialize === true ? JSON.stringify(data) : data
     })
+}
+
+function resolveUrl(url) {
+    if (url.indexOf('http') !== -1) {
+        return url
+    }
+    return wsConfig.httpPort + url
 }
