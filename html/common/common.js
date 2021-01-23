@@ -27,3 +27,12 @@ function resolveUrl(url) {
     }
     return wsConfig.httpPort + url
 }
+
+function checkToken() {
+    commonAjax("/token/check?token=" + localStorage.getItem("token")).then((res) => {
+        if (!res.check) {
+            location.href = "./index.html"
+            localStorage.removeItem("token")
+        }
+    })
+}

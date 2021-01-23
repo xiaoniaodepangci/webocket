@@ -75,7 +75,7 @@
             var html = ''
             if (list.length !== 0) {
                 list.forEach(item => {
-                    html += '<div class="friendItemBox" userId="' + item.id + '">' +
+                    html += '<div class="friendItemBox" username="' + item.username + '">' +
                         '    <div class="avatar">' +
                         '        <img src="../common/img/avatar.jpg" alt="">' +
                         '    </div>' +
@@ -90,6 +90,7 @@
         })
         $("#list").on("click", ".friendItemBox", function (e) {
             var nickname = $(this).find(".nickname").html();
+            var username = $(this).attr("username");
             parent.layer.open({
                 title: nickname,
                 type: 2,
@@ -98,8 +99,12 @@
                 maxmin: true,
                 anim: 5,
                 isOutAnim: false,
-                content: './chating.html'
+                content: ['./chating.html', 'no'],
+                end: () => {
+                    localStorage.removeItem("currChatIng")
+                }
             });
+            localStorage.setItem("currChatIng", username)
         });
     })
 </script>

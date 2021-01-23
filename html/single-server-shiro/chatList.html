@@ -17,15 +17,9 @@
 <body>
 <button id="chatButton" type="button" class="layui-btn">Chat</button>
 </body>
-<script type="text/html" id="friendItem">
-    <style>
-
-    </style>
-    <div class="friendItemBox">
-
-
-    </div>
-</script>
+<script src="../common/IM.js"></script>
+<script src="../common/config.js"></script>
+<script src="../common/common.js"></script>
 <script>
     $(() => {
         var item = localStorage.getItem("token");
@@ -35,6 +29,8 @@
             }, function () {
                 location.href = "./index.html"
             });
+        } else {
+            checkToken()
         }
         $("#chatButton").click(() => {
             layer.open({
@@ -49,6 +45,46 @@
                 content: './friends.html'
             });
         })
+
+        function onOpen(e) {
+            console.log("aaaaaaaaaaaaa==================>>>>>>>>>>>>>>>>>>>>")
+        }
+
+        if (window.WebSocket) {
+            if (IM.socket !== null &&
+                IM.socket !== undefined &&
+                IM.socket.readyState === WebSocket.OPEN) {
+                return false
+            }
+            IM.init(localStorage.getItem("token"), onOpen)
+            IM.socket.onmessage = onMessage
+            $("#wsPort").val(window.wsConfig.wsPort + "?token=" + localStorage.getItem("token"))
+
+        }
+
+
+        function onClose(e) {
+
+        }
+
+        function onError(e) {
+
+        }
+
+        function onMessage(e) {
+            console.log(JSON.parse(e.data));
+            var parse = JSON.parse(e.data);
+            var message = ' <div class="panel panel-default">' +
+                '  <div class="panel-heading">发送者: ' + parse.sender + '</div>' +
+                '        <div class="panel-body">' +
+                '            ' + parse.content +
+                '        </div>' +
+                '    </div>'
+
+
+            $("#messageList").append($(message))
+            $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+        }
     })
 </script>
 </html>

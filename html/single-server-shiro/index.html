@@ -60,6 +60,7 @@
             }).then((res) => {
                 if (res !== undefined && res !== null && res !== '') {
                     localStorage.setItem("token", res)
+                    localStorage.setItem("sender", $("#username").val())
                     location.href='./chatList.html'
                 }
                 console.log(res);

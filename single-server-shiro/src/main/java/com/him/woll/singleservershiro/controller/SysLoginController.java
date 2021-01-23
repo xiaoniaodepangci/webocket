@@ -3,12 +3,15 @@
 package com.him.woll.singleservershiro.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.him.woll.singleservershiro.common.Result;
 import com.him.woll.singleservershiro.entity.Users;
 import com.him.woll.singleservershiro.mapper.UsersMapper;
 import com.him.woll.singleservershiro.shiro.kit.JwtUtil;
 import com.him.woll.singleservershiro.shiro.kit.ShiroKit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +47,10 @@ public class SysLoginController {
         return result;
     }
 
-
+    @GetMapping("/token/check")
+    public Result tokenCheck(String token) {
+        Result result = new Result();
+        result.put("check", JwtUtil.verify(token, JwtUtil.getUsername(token)));
+        return result;
+    }
 }

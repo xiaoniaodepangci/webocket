@@ -1,7 +1,7 @@
 package com.him.woll.singleservershiro.websocket.interceptors;
 
 
-
+import com.him.woll.singleservershiro.shiro.kit.JwtUtil;
 import com.him.woll.singleservershiro.websocket.config.IWebSocketConfig;
 import com.him.woll.singleservershiro.websocket.utils.SpringContextUtils;
 import org.slf4j.Logger;
@@ -45,8 +45,10 @@ public class MyHandshakeInterceptor implements HandshakeInterceptor {
         String certificateSign = iWebSocketConfig.getCertificateSign();
         ServletServerHttpRequest serverHttpRequest = (ServletServerHttpRequest) request;
         String token = serverHttpRequest.getServletRequest().getParameter(iWebSocketConfig.getCertificateSign());
-        attributes.put(certificateSign, token);
-        return true;
+
+        String username = JwtUtil.getUsername(token);
+        attributes.put(certificateSign, username);
+        return JwtUtil.verify(token, username);
     }
 
     @Override

@@ -18,6 +18,7 @@
         .messageList {
             height: 59%;
             border-bottom: 1px solid #e3e3e3;
+            overflow: auto;
         }
 
         .messageInput {
@@ -47,18 +48,19 @@
     <link href="../common/layui/css/layui.css" rel="stylesheet">
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/common.js"></script>
+    <script src="../common/IM.js"></script>
 </head>
 <body>
 <div class="chatIngBox">
-    <div class="messageList"></div>
+    <div class="messageList" id="messageList"></div>
     <div class="messageInput">
         <form class="layui-form" id="inputForm">
             <div class="layui-form-item layui-form-text" id="inputBox">
-                <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
             <div class="layui-form-item" id="sendButtonBox">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button class="layui-btn" lay-submit lay-filter="sender">发送</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -66,4 +68,37 @@
     </div>
 </div>
 </body>
+<script>
+    $(() => {
+        parent.window.IM.socket.onmessage = onMessage
+    })
+    function onMessage(e) {
+        console.log(JSON.parse(e.data));
+        var parse = JSON.parse(e.data);
+        var message = ' <div class="panel panel-default">' +
+            '  <div class="panel-heading">发送者: ' + parse.sender + '</div>' +
+            '        <div class="panel-body">' +
+            '            ' + parse.content +
+            '        </div>' +
+            '    </div>'
+
+
+        $("#messageList").append($(message))
+        $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+    }
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(sender)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            let sender = localStorage.getItem("sender");
+            let receiver = localStorage.getItem("currChatIng");
+            let content = $("#content").val();
+            let type = messageType.MESSAGE_TYPE_NORMAL
+            let messagePayload = new MessagePayload(sender, receiver, content, type)
+            parent.window.IM.send(JSON.stringify(messagePayload))
+            return false;
+        });
+    })
+</script>
 </html>
