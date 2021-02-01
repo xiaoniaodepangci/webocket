@@ -32,8 +32,9 @@
     import {getFriendInfo, getCurrUserInfo} from '../common/common.js'
     import {setHistory} from "../common/js/history.js"
     import {getHistory} from "../common/js/history.js";
-
+    let messageList ;
     $(() => {
+        messageList = $('#messageList')
         parent.window.IM.socket.onmessage = onMessage
         let currUserInfo = getCurrUserInfo();
         let curr = currUserInfo.username;
@@ -58,10 +59,16 @@
                     '        </div>' +
                     '    </div>';
             }
-            $('#messageList').append($(listHtml))
-            $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+            messageList.append($(listHtml))
+            messageList.scrollTop($("#messageList")[0].scrollHeight);
         }
-
+        messageList.scroll((e) => {
+            let _this = $(e.target)
+            if (_this.scrollTop() < 50) {
+                // TODO
+                console.log("开始加载服务器聊天记录")
+            }
+        })
     })
 
     function onMessage(e) {
@@ -75,8 +82,8 @@
             '            ' + parse.content +
             '        </div>' +
             '    </div>'
-        $("#messageList").append($(message))
-        $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+        messageList.append($(message))
+        messageList.scrollTop($("#messageList")[0].scrollHeight);
 
         setHistory(username, sender, parse.content, "other")
     }
@@ -98,8 +105,8 @@
                 '            ' + content +
                 '        </div>' +
                 '    </div>'
-            $("#messageList").append($(message))
-            $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+            messageList.append($(message))
+            messageList.scrollTop($("#messageList")[0].scrollHeight);
             // 重置输入框
             $("#reset").trigger("click")
             setHistory(sender, receiver, content, "mine")
