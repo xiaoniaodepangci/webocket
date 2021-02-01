@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本地
+ Source Server         : 本地数据库
  Source Server Type    : MySQL
- Source Server Version : 50730
+ Source Server Version : 80020
  Source Host           : localhost:3306
  Source Schema         : websocket-im
 
  Target Server Type    : MySQL
- Target Server Version : 50730
+ Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 20/01/2021 18:09:42
+ Date: 01/02/2021 09:10:27
 */
 
 SET NAMES utf8mb4;
@@ -67,15 +67,17 @@ CREATE TABLE `my_friends`  (
 -- ----------------------------
 -- Records of my_friends
 -- ----------------------------
-INSERT INTO `my_friends` VALUES ('1', '1706101020', '1706101022');
-INSERT INTO `my_friends` VALUES ('2', '1706101022', '1706101020');
+INSERT INTO `my_friends` VALUES ('1', '1', '2');
+INSERT INTO `my_friends` VALUES ('2', '2', '1');
+INSERT INTO `my_friends` VALUES ('3', '1', '3');
+INSERT INTO `my_friends` VALUES ('4', '3', '1');
 
 -- ----------------------------
 -- Table structure for permission
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
-  `id` int(11) NOT NULL COMMENT '主键',
+  `id` int(0) NOT NULL COMMENT '主键',
   `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
@@ -152,5 +154,6 @@ CREATE TABLE `users`  (
 -- ----------------------------
 INSERT INTO `users` VALUES ('1', '1706101020', '5c4ff83a75ab2d35a60b63410f986ed3', 'user1');
 INSERT INTO `users` VALUES ('2', '1706101022', '5c4ff83a75ab2d35a60b63410f986ed3', 'user2');
+INSERT INTO `users` VALUES ('3', '1706101021', '5c4ff83a75ab2d35a60b63410f986ed3', 'user3');
 
 SET FOREIGN_KEY_CHECKS = 1;

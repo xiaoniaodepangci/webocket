@@ -70,7 +70,7 @@ public class MyWebSocketHandler implements WebSocketHandler {
             webSocketSession.sendMessage(MessagePayloadUtils.parseException());
             return;
         }
-
+        // 测试
         String sender = messagePayload.getSender();
         String receiver = messagePayload.getReceiver();
         String type = messagePayload.getType();
