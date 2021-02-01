@@ -11,7 +11,9 @@ github: https://github.com/xiaoniaodepangci/websocket-woll
 com.hc     
 ├── html                  // 前端模块文件
 ├── single-server         // 单机模式
+├── single-server-shiro   // 单机shiro权限
 ├──pom.xml                // 公共依赖
+├──
 ~~~
 每个模块下面都有相应的README.md
 

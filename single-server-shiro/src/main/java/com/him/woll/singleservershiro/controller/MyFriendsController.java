@@ -62,6 +62,7 @@ public class MyFriendsController {
         List<Users> friends = new ArrayList<>();
         if (friendIds.size() != 0) {
             friends = usersMapper.selectList(userQuery);
+            friends.forEach(item -> item.setPassword(""));
         }
         return Result.ok().put("list", friends);
     }

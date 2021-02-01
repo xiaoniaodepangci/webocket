@@ -3,51 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>chating</title>
-    <style>
-        body, html {
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
-        }
 
-        .chatIngBox {
-            height: 100%;
-            width: 100%;
-        }
-
-        .messageList {
-            height: 59%;
-            border-bottom: 1px solid #e3e3e3;
-            overflow: auto;
-        }
-
-        .messageInput {
-            height: 40%;
-        }
-
-        #inputBox {
-            height: 100%;
-        }
-
-        .messageInput textarea {
-            border: none;
-            height: 100%;
-        }
-
-        #sendButtonBox {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-        }
-
-        #inputForm {
-            height: 100%;
-        }
-    </style>
     <script src="../common/layui/layui.js"></script>
     <link href="../common/layui/css/layui.css" rel="stylesheet">
+    <link href="./css/chating.css" rel="stylesheet">
     <script src="../common/jquery-1.8.3.min.js"></script>
-    <script src="../common/common.js"></script>
     <script src="../common/IM.js"></script>
 </head>
 <body>
@@ -61,42 +21,88 @@
             <div class="layui-form-item" id="sendButtonBox">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="sender">发送</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 </body>
-<script>
+<script type="module">
+    import {getFriendInfo, getCurrUserInfo} from '../common/common.js'
+    import {setHistory} from "../common/js/history.js"
+    import {getHistory} from "../common/js/history.js";
+
     $(() => {
         parent.window.IM.socket.onmessage = onMessage
+        let currUserInfo = getCurrUserInfo();
+        let curr = currUserInfo.username;
+        let other = localStorage.getItem("currChatIng");
+        let info = getFriendInfo(other);
+        let chatHistoryList = getHistory(curr, other);
+        let listHtml = "";
+        for (var i = 0; i < chatHistoryList.length; i++) {
+            let singleMsg = chatHistoryList[i];
+            if (singleMsg.flag === "other") {
+                listHtml += ' <div class="panel panel-default layui-row other">' +
+                    '  <div class="panel-heading"><img src="' + info.profile + '" alt=""></div>' +
+                    '        <div class="panel-body">' +
+                    '            ' + singleMsg.content +
+                    '        </div>' +
+                    '    </div>';
+            } else {
+                listHtml += ' <div class="panel panel-default layui-row mine">' +
+                    '  <div class="panel-heading"><img src="' + currUserInfo.profile + '" alt=""></div>' +
+                    '        <div class="panel-body">' +
+                    '            ' + singleMsg.content +
+                    '        </div>' +
+                    '    </div>';
+            }
+            $('#messageList').append($(listHtml))
+            $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+        }
+
     })
+
     function onMessage(e) {
-        console.log(JSON.parse(e.data));
         var parse = JSON.parse(e.data);
-        var message = ' <div class="panel panel-default">' +
-            '  <div class="panel-heading">发送者: ' + parse.sender + '</div>' +
+        let sender = parse.sender;
+        let info = getFriendInfo(sender);
+        let username = getCurrUserInfo().username;
+        var message = ' <div class="panel panel-default layui-row other">' +
+            '  <div class="panel-heading"><img src="' + info.profile + '" alt=""></div>' +
             '        <div class="panel-body">' +
             '            ' + parse.content +
             '        </div>' +
             '    </div>'
-
-
         $("#messageList").append($(message))
         $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+
+        setHistory(username, sender, parse.content, "other")
     }
+
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
         form.on('submit(sender)', function (data) {
-            layer.msg(JSON.stringify(data.field));
             let sender = localStorage.getItem("sender");
             let receiver = localStorage.getItem("currChatIng");
             let content = $("#content").val();
             let type = messageType.MESSAGE_TYPE_NORMAL
             let messagePayload = new MessagePayload(sender, receiver, content, type)
             parent.window.IM.send(JSON.stringify(messagePayload))
+            let currUserInfo = getCurrUserInfo();
+            var message = ' <div class="panel panel-default layui-row mine">' +
+                '  <div class="panel-heading"><img src="' + currUserInfo.profile + '" alt=""></div>' +
+                '        <div class="panel-body">' +
+                '            ' + content +
+                '        </div>' +
+                '    </div>'
+            $("#messageList").append($(message))
+            $('#messageList').scrollTop($("#messageList")[0].scrollHeight);
+            // 重置输入框
+            $("#reset").trigger("click")
+            setHistory(sender, receiver, content, "mine")
             return false;
         });
     })

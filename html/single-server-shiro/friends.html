@@ -48,26 +48,17 @@
     </style>
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/config.js"></script>
-    <script src="../common/common.js"></script>
     <script src="../common/layui/layui.all.js"></script>
-
 </head>
 <body>
 <div id="list">
 
 </div>
-<!--<div class="friendItemBox">-->
-<!--    <div class="avatar">-->
-<!--        <img src="../common/img/avatar.jpg" alt="">-->
-<!--    </div>-->
-<!--    <div class="nameAndMsg">-->
-<!--        <div>{{name}}</div>-->
-<!--        <div>{{msg}}</div>-->
-<!--    </div>-->
-<!--</div>-->
 </body>
 
-<script>
+<script type="module">
+    import {commonAjax, setFriendInfos} from '../common/common.js'
+
     $(() => {
         commonAjax('/myFriends/').then((res) => {
             console.log(res.list);
@@ -77,7 +68,7 @@
                 list.forEach(item => {
                     html += '<div class="friendItemBox" username="' + item.username + '">' +
                         '    <div class="avatar">' +
-                        '        <img src="../common/img/avatar.jpg" alt="">' +
+                        '        <img src="' + item.profile + '" alt="">' +
                         '    </div>' +
                         '    <div class="nameAndMsg">' +
                         '        <div class="nickname">' + item.nickname + '</div>' +
@@ -87,6 +78,7 @@
                 })
                 $("#list").html($(html))
             }
+            setFriendInfos(list)
         })
         $("#list").on("click", ".friendItemBox", function (e) {
             var nickname = $(this).find(".nickname").html();

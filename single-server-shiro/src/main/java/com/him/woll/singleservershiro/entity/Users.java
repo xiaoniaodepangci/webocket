@@ -41,6 +41,10 @@ public class Users extends Model<Users> {
      */
     private String nickname;
 
+    /**
+     * 头像
+     */
+    private String profile;
 
     @Override
     protected Serializable pkVal() {

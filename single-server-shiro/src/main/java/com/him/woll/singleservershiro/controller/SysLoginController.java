@@ -44,9 +44,16 @@ public class SysLoginController {
         }
         Result result = new Result();
         result.put("accessToken", JwtUtil.createToken(users.getUsername()));
+        result.put("currUserInfo", usersDb);
         return result;
     }
 
+    /**
+     * token检测
+     *
+     * @param token jwt
+     * @return 检测结果
+     */
     @GetMapping("/token/check")
     public Result tokenCheck(String token) {
         Result result = new Result();

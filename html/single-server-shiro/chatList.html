@@ -19,8 +19,8 @@
 </body>
 <script src="../common/IM.js"></script>
 <script src="../common/config.js"></script>
-<script src="../common/common.js"></script>
-<script>
+<script type="module">
+    import {checkToken} from '../common/common.js'
     $(() => {
         var item = localStorage.getItem("token");
         if (item === null || item === undefined || item.length === 0) {
