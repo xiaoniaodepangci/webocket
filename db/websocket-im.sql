@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 01/02/2021 14:30:25
+ Date: 02/02/2021 16:13:30
 */
 
 SET NAMES utf8mb4;
@@ -51,6 +51,22 @@ CREATE TABLE `friends_request`  (
 
 -- ----------------------------
 -- Records of friends_request
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for msg_history
+-- ----------------------------
+DROP TABLE IF EXISTS `msg_history`;
+CREATE TABLE `msg_history`  (
+  `id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `sender` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送者',
+  `receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接受者',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '内容',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of msg_history
 -- ----------------------------
 
 -- ----------------------------
@@ -153,8 +169,8 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', '1706101020', '5c4ff83a75ab2d35a60b63410f986ed3', 'user1', 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=921151223,1267112089&fm=11&gp=0.jpg');
-INSERT INTO `users` VALUES ('2', '1706101022', '5c4ff83a75ab2d35a60b63410f986ed3', 'user2', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3610495421,999937044&fm=26&gp=0.jpg');
-INSERT INTO `users` VALUES ('3', '1706101021', '5c4ff83a75ab2d35a60b63410f986ed3', 'user3', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201903%2F19%2F20190319233218_GjXYc.thumb.700_0.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1614752548&t=b62692f4ebd492b3ee38364fbfac74f0');
+INSERT INTO `users` VALUES ('1', '1706101020', '5c4ff83a75ab2d35a60b63410f986ed3', 'user1', '../common/img/profile/4895636.jpg');
+INSERT INTO `users` VALUES ('2', '1706101022', '5c4ff83a75ab2d35a60b63410f986ed3', 'user2', '../common/img/profile/56484253.jpg');
+INSERT INTO `users` VALUES ('3', '1706101021', '5c4ff83a75ab2d35a60b63410f986ed3', 'user3', '../common/img/profile/552548669.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;
