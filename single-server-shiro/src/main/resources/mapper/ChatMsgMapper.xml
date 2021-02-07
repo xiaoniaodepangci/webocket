@@ -12,5 +12,9 @@
         <result column="create_time" property="createTime" />
         <result column="status" property="status" />
     </resultMap>
+    <select id="history" resultType="com.him.woll.singleservershiro.entity.ChatMsg">
+        select * from chat_msg where sender = #{sender} and receiver = ${receiver}
+        union all select * from chat_msg where sender = #{receiver} and receiver = ${sender}
+    </select>
 
 </mapper>

@@ -34,6 +34,7 @@
         }
 
         .friendItemBox .nameAndMsg {
+            width: 75%;
             padding: 0px 5px;
             display: flex;
             flex-direction: column;
@@ -45,58 +46,134 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
+
+        .snapshot {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
     </style>
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/config.js"></script>
     <script src="../common/layui/layui.all.js"></script>
+    <link href="../common/layui/css/layui.css" rel="stylesheet">
 </head>
 <body>
-<div id="list">
-
+<div class="layui-tab layui-tab-brief" lay-filter="tabs">
+    <ul class="layui-tab-title">
+        <li class="layui-this">消息列表</li>
+        <li class="">好友列表</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item" id="snapShortList"></div>
+        <div class="layui-tab-item layui-show" id="friendList"></div>
+    </div>
 </div>
+
+
 </body>
 
 <script type="module">
-    import {commonAjax, setFriendInfos} from '../common/common.js'
+    import {commonAjax, setFriendInfos, getFriendInfos} from '../common/common.js'
+    import {loadSnapShot} from "../common/js/snapshot.js";
+
 
     $(() => {
-        commonAjax('/myFriends/').then((res) => {
-            console.log(res.list);
-            var list = res.list;
-            var html = ''
-            if (list.length !== 0) {
-                list.forEach(item => {
-                    html += '<div class="friendItemBox" username="' + item.username + '">' +
-                        '    <div class="avatar">' +
-                        '        <img src="' + item.profile + '" alt="">' +
-                        '    </div>' +
-                        '    <div class="nameAndMsg">' +
-                        '        <div class="nickname">' + item.nickname + '</div>' +
-                        '        <div class="snapshot"></div>' +
-                        '    </div>' +
-                        '</div>'
-                })
-                $("#list").html($(html))
-            }
-            setFriendInfos(list)
-        })
-        $("#list").on("click", ".friendItemBox", function (e) {
-            var nickname = $(this).find(".nickname").html();
-            var username = $(this).attr("username");
-            parent.layer.open({
-                title: nickname,
-                type: 2,
-                area: ['600px', '450px'],
-                fixed: false, //不固定
-                maxmin: true,
-                anim: 5,
-                isOutAnim: false,
-                content: ['./chating.html', 'no'],
-                end: () => {
-                    localStorage.removeItem("currChatIng")
+
+        /**
+         * 构建单个好友信息的dom
+         *
+         * @param item 好友信息
+         * @returns {string}
+         */
+        function friendListHtmlBuilder(item) {
+            return '<div class="friendItemBox" username="' + item.username + '">' +
+                '    <div class="avatar">' +
+                '        <img src="' + item.profile + '" alt="">' +
+                '    </div>' +
+                '    <div class="nameAndMsg">' +
+                '        <div class="nickname">' + item.nickname + '</div>' +
+                '        <div class="snapshot">' +
+                '            <div class="content">最新一条未查看记录</div>' +
+                '            <span class="layui-badge">99</span>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+        }
+
+        /**
+         * 构建单个聊天快照的dom
+         *
+         * @param item 单个聊天快照的数据
+         * @returns {string}
+         */
+        function snapShotListHtmlBuilder(item) {
+            return '<div class="friendItemBox" username="' + item.username + '">' +
+                '    <div class="avatar">' +
+                '        <img src="' + item.profile + '" alt="">' +
+                '    </div>' +
+                '    <div class="nameAndMsg">' +
+                '        <div class="nickname">' + item.nickname + '</div>' +
+                '        <div class="snapshot">' +
+                '            <div class="content">最新一条未查看记录</div>' +
+                '            <span class="layui-badge">99</span>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+        }
+
+        //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            let element = layui.element;
+            element.on('tab(tabs)', function (data) {
+                console.log(data.index);
+                if (data.index === 1) {
+                    let friendInfos = getFriendInfos();
+                    if (friendInfos === undefined || friendInfos === null) {
+                        commonAjax('/myFriends/').then((res) => {
+                            console.log(res.list);
+                            var list = res.list;
+                            var html = ''
+                            if (list.length !== 0) {
+                                list.forEach(item => {
+                                    html += friendListHtmlBuilder(item)
+                                })
+                                $("#friendList").empty().html($(html))
+                            }
+                            setFriendInfos(list)
+                        })
+                    } else {
+                        var html = ''
+                        friendInfos.forEach(item => {
+                            html += friendListHtmlBuilder(item)
+                        })
+                        $("#friendList").empty().html($(html))
+                    }
+
+                    $("#friendList").unbind().on("click", ".friendItemBox", function (e) {
+                        var nickname = $(this).find(".nickname").html();
+                        var username = $(this).attr("username");
+                        parent.layer.open({
+                            title: nickname,
+                            type: 2,
+                            area: ['600px', '450px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            anim: 5,
+                            isOutAnim: false,
+                            content: ['./chating.html', 'no'],
+                            end: () => {
+                                localStorage.removeItem("currChatIng")
+                            }
+                        });
+                        localStorage.setItem("currChatIng", username)
+                    });
+                }
+                if (data.index === 0) {
+                    loadSnapShot()
                 }
             });
-            localStorage.setItem("currChatIng", username)
         });
     })
 </script>

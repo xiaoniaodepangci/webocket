@@ -21,5 +21,12 @@ public class MessageConstants {
      * 消息类型---广播消息
      */
     public static final String MESSAGE_TYPE_BROADCAST = "broadcast";
-
+    /**
+     * 消息类型---签收
+     */
+    public static final String MESSAGE_TYPE_SIGN = "sign";
+    /**
+     * 消息类型---撤销
+     */
+    public static final String MESSAGE_TYPE_REVOKE = "revoke";
 }

@@ -3,6 +3,7 @@ package com.him.woll.singleservershiro.common;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,5 +51,25 @@ public class Result extends HashMap<String, Object> {
     public Result put(String key, Object value) {
         super.put(key, value);
         return this;
+    }
+
+    /**
+     * 列表数据
+     *
+     * @param list      数据
+     * @param currPage  当前页
+     * @param pageSize  分页
+     * @param totalPage 总页数
+     * @param total     总行数
+     * @return 列表数据
+     */
+    public static Result list(Object list, Long currPage, Long pageSize, Long totalPage, Long total) {
+        Result result = new Result();
+        result.put("list", list);
+        result.put("currPage", currPage);
+        result.put("pageSize", pageSize);
+        result.put("totalPage", totalPage);
+        result.put("total", total);
+        return result;
     }
 }

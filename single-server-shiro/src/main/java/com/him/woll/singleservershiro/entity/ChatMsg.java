@@ -1,9 +1,12 @@
 package com.him.woll.singleservershiro.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -12,7 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- *
+ * 消息表--
  * </p>
  *
  * @author huangc
@@ -49,7 +52,14 @@ public class ChatMsg extends Model<ChatMsg> {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
     /**
      * 消息状态

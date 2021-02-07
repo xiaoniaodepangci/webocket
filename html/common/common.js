@@ -31,6 +31,58 @@ export function commonAjax(url, data, type, serialize, async, contentType) {
     })
 }
 
+/**
+ * 获取服务器聊天数据
+ */
+export function getRemoteHistory() {
+
+    var item = localStorage.getItem("pageInfo");
+    if (item === undefined) {
+        item = {
+            pageSize: 30,
+            currPage: 1
+        }
+        localStorage.setItem("pageInfo", JSON.stringify(item));
+    }
+    var parse = JSON.parse(item);
+
+
+    return $.ajax({
+        headers: {
+            token: localStorage.getItem("token")
+        },
+        type: "get",
+        dataType: "json",
+        async: true,
+        url: resolveUrl("/chatMsg/history"),
+        data: parse.extend({
+            "sender": getSender(),
+            "receiver": getCurrChatIng()
+        })
+    })
+}
+/**
+ * 获取未读消息
+ *
+ */
+export function getNotReadMsg() {
+    let res = $.ajax({
+        headers: {
+            token: localStorage.getItem("token")
+        },
+        type: "get",
+        dataType: "json",
+        async: true,
+        url: resolveUrl("/chatMsg/history"),
+        data: parse.extend({
+            "sender": getSender(),
+            "receiver": getCurrChatIng()
+        })
+    })
+
+    console.log(res);
+
+}
 // 地址匹配
 export function resolveUrl(url) {
     if (url.indexOf('http') !== -1) {
@@ -78,4 +130,17 @@ export function getCurrUserInfo() {
 // 字符串判断是否为空的
 export function isNotNull(str) {
     return str != null && str !== "" && str !== undefined;
+}
+
+export function getSender() {
+    return localStorage.getItem("sender")
+}
+
+/**
+ * 获取当前正在聊天的朋友username
+ *
+ * @returns {string}
+ */
+export function getCurrChatIng() {
+    return localStorage.getItem("currChatIng")
 }

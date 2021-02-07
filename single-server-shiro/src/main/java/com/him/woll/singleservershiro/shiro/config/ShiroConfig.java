@@ -1,7 +1,6 @@
 package com.him.woll.singleservershiro.shiro.config;
 
 
-
 import com.him.woll.singleservershiro.shiro.filter.JwtFilter;
 import com.him.woll.singleservershiro.shiro.realm.JwtRealm;
 
@@ -13,7 +12,11 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -30,7 +33,7 @@ public class ShiroConfig {
 
     @Bean(name = "shiroFilter")
     @DependsOn("lifecycleBeanPostProcessor")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean() {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 设置安全管理器
@@ -40,7 +43,7 @@ public class ShiroConfig {
         // 设置我们自定义的JWT过滤器
         myFilterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(myFilterMap);
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+
         // 设置无权限时跳转的 url;
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized/无权限");
 
@@ -79,7 +82,7 @@ public class ShiroConfig {
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
         securityManager.setSubjectDAO(subjectDAO);
-        securityManager.setRealm(userRealm());
+        securityManager.setRealm(jwtRealm());
         return securityManager;
     }
 
@@ -90,9 +93,14 @@ public class ShiroConfig {
     }
 
 
-    @Bean
+    /**
+     * jwtRealm
+     *
+     * @return jwtRealm
+     */
+    @Bean(name = "jwtRealm")
     @DependsOn("lifecycleBeanPostProcessor")
-    public JwtRealm userRealm() {
+    public JwtRealm jwtRealm() {
         return new JwtRealm();
     }
 

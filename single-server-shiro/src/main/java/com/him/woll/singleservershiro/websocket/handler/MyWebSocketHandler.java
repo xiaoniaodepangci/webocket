@@ -2,8 +2,13 @@ package com.him.woll.singleservershiro.websocket.handler;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.him.woll.singleservershiro.entity.ChatMsg;
+import com.him.woll.singleservershiro.mapper.ChatMsgMapper;
 import com.him.woll.singleservershiro.websocket.config.IWebSocketConfig;
 import com.him.woll.singleservershiro.websocket.constants.MessageConstants;
 import com.him.woll.singleservershiro.websocket.entity.MessagePayload;
@@ -12,11 +17,14 @@ import com.him.woll.singleservershiro.websocket.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,12 +34,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 20/12/17 11:17
  */
 @Slf4j
+@Component
 public class MyWebSocketHandler implements WebSocketHandler {
-
+    @Autowired
+    private ChatMsgMapper chatMsgMapper;
     /**
      * session对应关系
      */
     private static Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
+
+
 
     public static Map<String, WebSocketSession> getSessionMap() {
         return sessionMap;
@@ -84,7 +96,10 @@ public class MyWebSocketHandler implements WebSocketHandler {
         if (MessageConstants.MESSAGE_TYPE_BROADCAST.equals(type)) {
             for (WebSocketSession localWebSocketSession : sessionMap.values()) {
                 if (localWebSocketSession.isOpen()) {
-                    localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender, receiver, content));
+                    localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender,
+                            receiver,
+                            content,
+                            MessageConstants.MESSAGE_TYPE_BROADCAST));
                 }
             }
             return;
@@ -93,7 +108,32 @@ public class MyWebSocketHandler implements WebSocketHandler {
         if (MessageConstants.MESSAGE_TYPE_NORMAL.equals(type)) {
             WebSocketSession localWebSocketSession = sessionMap.getOrDefault(receiver, null);
             if (localWebSocketSession != null) {
-                localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender, receiver, content));
+                localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender,
+                        receiver,
+                        content,
+                        MessageConstants.MESSAGE_TYPE_NORMAL));
+            }
+            ChatMsg chatMsg = new ChatMsg();
+            chatMsg.setStatus("0");
+            chatMsg.setSender(sender);
+            chatMsg.setReceiver(receiver);
+            chatMsg.setMsg(content);
+            chatMsg.setSignFlag("0");
+            chatMsgMapper.insert(chatMsg);
+            return;
+        }
+        // 消息签收
+        if (MessageConstants.MESSAGE_TYPE_SIGN.equals(type)) {
+            JSONArray objects = JSONObject.parseArray(content);
+            if (objects.size() != 0) {
+                LambdaUpdateWrapper<ChatMsg> updateWrapper = new LambdaUpdateWrapper<>();
+                updateWrapper.set(ChatMsg::getSignFlag, "1").in(ChatMsg::getId, objects);
+                chatMsgMapper.update(null, updateWrapper);
+                // 签收回执
+                webSocketSession.sendMessage(MessagePayloadUtils.success(sender,
+                        receiver,
+                        content,
+                        MessageConstants.MESSAGE_TYPE_SIGN));
             }
             return;
         }

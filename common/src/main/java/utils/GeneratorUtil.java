@@ -53,13 +53,13 @@ public class GeneratorUtil {
             public DbColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
                 //将数据库中时间类型转换成java.util.Date
                 if (fieldType.toLowerCase().contains(TIME_STAMP)) {
-                    return DbColumnType.DATE;
+                    return DbColumnType.LOCAL_DATE_TIME;
                 }
                 if (fieldType.toLowerCase().contains(DATE_TIME)) {
-                    return DbColumnType.DATE;
+                    return DbColumnType.LOCAL_DATE_TIME;
                 }
                 if (fieldType.toLowerCase().contains(DATE)) {
-                    return DbColumnType.DATE;
+                    return DbColumnType.LOCAL_DATE_TIME;
                 }
                 return (DbColumnType) super.processTypeConvert(globalConfig, fieldType);
             }

@@ -56,12 +56,12 @@ public class MessagePayloadUtils {
         return new TextMessage(JSONObject.toJSONString(messagePayload));
     }
 
-    public static TextMessage success(String sender, String receiver, String content) {
+    public static TextMessage success(String sender, String receiver, String content, String type) {
         MessagePayload messagePayload = new MessagePayload();
         messagePayload.setContent(content);
         messagePayload.setSender(sender);
         messagePayload.setReceiver(receiver);
-        messagePayload.setType(MessageConstants.MESSAGE_TYPE_NORMAL);
+        messagePayload.setType(type);
         return new TextMessage(JSONObject.toJSONString(messagePayload));
     }
 }

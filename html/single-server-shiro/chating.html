@@ -9,6 +9,7 @@
     <link href="./css/chating.css" rel="stylesheet">
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/IM.js"></script>
+    <script src="../common/config.js"></script>
 </head>
 <body>
 <div class="chatIngBox">
@@ -29,10 +30,11 @@
 </div>
 </body>
 <script type="module">
-    import {getFriendInfo, getCurrUserInfo} from '../common/common.js'
-    import {setHistory} from "../common/js/history.js"
-    import {getHistory} from "../common/js/history.js";
-    let messageList ;
+    import {getFriendInfo, getCurrUserInfo, getRemoteHistory, getCurrChatIng} from '../common/common.js'
+    import {setHistory, getHistory} from "../common/js/history.js"
+    import {saveSnapShot} from "../common/js/snapshot";
+
+    let messageList;
     $(() => {
         messageList = $('#messageList')
         parent.window.IM.socket.onmessage = onMessage
@@ -64,8 +66,17 @@
         }
         messageList.scroll((e) => {
             let _this = $(e.target)
-            if (_this.scrollTop() < 50) {
+            console.log(_this[0].scrollHeight)
+            let first = _this.children(":first")
+
+            console.log(first);
+            if (_this.scrollTop() === 0) {
                 // TODO
+                first.before("asdasd")
+                getRemoteHistory()
+                    .then((res) => {
+                        console.log(res);
+                    })
                 console.log("开始加载服务器聊天记录")
             }
         })
@@ -86,6 +97,13 @@
         messageList.scrollTop($("#messageList")[0].scrollHeight);
 
         setHistory(username, sender, parse.content, "other")
+        let isRead = false
+        // 如果当前聊天对象的username与接收到的消息的发送者一致，则认为用户已签收消息，如果不一致，则是后台收到消息了但没有展示出来
+        if (getCurrChatIng() === parse.sender) {
+            isRead = true
+        }
+
+        saveSnapShot(username, sender, parse.content, isRead)
     }
 
     layui.use('form', function () {
