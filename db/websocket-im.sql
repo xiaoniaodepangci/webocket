@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本地
+ Source Server         : 119.23.78.32_3306
  Source Server Type    : MySQL
- Source Server Version : 50730
- Source Host           : localhost:3306
+ Source Server Version : 80021
+ Source Host           : 119.23.78.32:3306
  Source Schema         : websocket-im
 
  Target Server Type    : MySQL
- Target Server Version : 50730
+ Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 02/02/2021 16:13:30
+ Date: 07/02/2021 21:32:00
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,7 @@ CREATE TABLE `chat_msg`  (
   `msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '消息实体',
   `sign_flag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接收标志',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息状态',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息表' ROW_FORMAT = Dynamic;
@@ -35,6 +36,8 @@ CREATE TABLE `chat_msg`  (
 -- ----------------------------
 -- Records of chat_msg
 -- ----------------------------
+INSERT INTO `chat_msg` VALUES ('1358315109174534145', '1706101020', '1706101022', '111111111111', '0', NULL, NULL, '0');
+INSERT INTO `chat_msg` VALUES ('1358315116904636418', '1706101020', '1706101022', '111111111', '0', NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for friends_request
@@ -51,22 +54,6 @@ CREATE TABLE `friends_request`  (
 
 -- ----------------------------
 -- Records of friends_request
--- ----------------------------
-
--- ----------------------------
--- Table structure for msg_history
--- ----------------------------
-DROP TABLE IF EXISTS `msg_history`;
-CREATE TABLE `msg_history`  (
-  `id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `sender` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送者',
-  `receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接受者',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '内容',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of msg_history
 -- ----------------------------
 
 -- ----------------------------
@@ -93,7 +80,7 @@ INSERT INTO `my_friends` VALUES ('4', '3', '1');
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
-  `id` int(11) NOT NULL COMMENT '主键',
+  `id` int(0) NOT NULL COMMENT '主键',
   `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;

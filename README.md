@@ -17,7 +17,3 @@ com.hc
 ~~~
 每个模块下面都有相应的README.md
 
-## 统一使用nacos作为配置中心(configServer)
-nacos: https://github.com/alibaba/nacos/releases/tag/1.4.0
-
-食用nacos请务必查看nacos文件夹下的README.md

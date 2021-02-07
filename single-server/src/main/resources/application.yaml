@@ -1,0 +1,16 @@
+server:
+  port: 2333
+spring:
+  application:
+    name: single-server
+websocket:
+  endpoint: /ws
+  cross-origins:
+    - '*'
+  certificate-sign: 'token'
+
+logging:
+  level:
+    com.him.woll.singleserver: debug
+  file:
+    path:  E:\\github\\websocket-woll\single-server.log
