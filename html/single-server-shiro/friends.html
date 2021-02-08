@@ -75,103 +75,20 @@
 </body>
 
 <script type="module">
-    import {commonAjax, setFriendInfos, getFriendInfos} from '../common/common.js'
     import {loadSnapShot} from "../common/js/snapshot.js";
-
-
+    import {builderFriendHtml} from "../common/js/friend.js";
     $(() => {
-
-        /**
-         * 构建单个好友信息的dom
-         *
-         * @param item 好友信息
-         * @returns {string}
-         */
-        function friendListHtmlBuilder(item) {
-            return '<div class="friendItemBox" username="' + item.username + '">' +
-                '    <div class="avatar">' +
-                '        <img src="' + item.profile + '" alt="">' +
-                '    </div>' +
-                '    <div class="nameAndMsg">' +
-                '        <div class="nickname">' + item.nickname + '</div>' +
-                '        <div class="snapshot">' +
-                '            <div class="content">最新一条未查看记录</div>' +
-                '            <span class="layui-badge">99</span>' +
-                '        </div>' +
-                '    </div>' +
-                '</div>';
-        }
-
-        /**
-         * 构建单个聊天快照的dom
-         *
-         * @param item 单个聊天快照的数据
-         * @returns {string}
-         */
-        function snapShotListHtmlBuilder(item) {
-            return '<div class="friendItemBox" username="' + item.username + '">' +
-                '    <div class="avatar">' +
-                '        <img src="' + item.profile + '" alt="">' +
-                '    </div>' +
-                '    <div class="nameAndMsg">' +
-                '        <div class="nickname">' + item.nickname + '</div>' +
-                '        <div class="snapshot">' +
-                '            <div class="content">最新一条未查看记录</div>' +
-                '            <span class="layui-badge">99</span>' +
-                '        </div>' +
-                '    </div>' +
-                '</div>';
-        }
-
+        loadSnapShot('#snapShortList')
         //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
         layui.use('element', function () {
             let element = layui.element;
             element.on('tab(tabs)', function (data) {
                 console.log(data.index);
                 if (data.index === 1) {
-                    let friendInfos = getFriendInfos();
-                    if (friendInfos === undefined || friendInfos === null) {
-                        commonAjax('/myFriends/').then((res) => {
-                            console.log(res.list);
-                            var list = res.list;
-                            var html = ''
-                            if (list.length !== 0) {
-                                list.forEach(item => {
-                                    html += friendListHtmlBuilder(item)
-                                })
-                                $("#friendList").empty().html($(html))
-                            }
-                            setFriendInfos(list)
-                        })
-                    } else {
-                        var html = ''
-                        friendInfos.forEach(item => {
-                            html += friendListHtmlBuilder(item)
-                        })
-                        $("#friendList").empty().html($(html))
-                    }
-
-                    $("#friendList").unbind().on("click", ".friendItemBox", function (e) {
-                        var nickname = $(this).find(".nickname").html();
-                        var username = $(this).attr("username");
-                        parent.layer.open({
-                            title: nickname,
-                            type: 2,
-                            area: ['600px', '450px'],
-                            fixed: false, //不固定
-                            maxmin: true,
-                            anim: 5,
-                            isOutAnim: false,
-                            content: ['./chating.html', 'no'],
-                            end: () => {
-                                localStorage.removeItem("currChatIng")
-                            }
-                        });
-                        localStorage.setItem("currChatIng", username)
-                    });
+                    builderFriendHtml("#friendList")
                 }
                 if (data.index === 0) {
-                    loadSnapShot()
+                    loadSnapShot('#snapShortList')
                 }
             });
         });

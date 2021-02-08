@@ -32,7 +32,7 @@
 <script type="module">
     import {getFriendInfo, getCurrUserInfo, getRemoteHistory, getCurrChatIng} from '../common/common.js'
     import {setHistory, getHistory} from "../common/js/history.js"
-    import {saveSnapShot} from "../common/js/snapshot";
+    import {saveSnapShot} from "../common/js/snapshot.js";
 
     let messageList;
     $(() => {
@@ -82,17 +82,25 @@
         })
     })
 
+    /**
+     * 接收消息时的回调
+     * @param e
+     */
     function onMessage(e) {
+        console.log("弹出层的接收回调")
         var parse = JSON.parse(e.data);
         let sender = parse.sender;
+        // sender为发送方用户名即好友用户名
         let info = getFriendInfo(sender);
+        // 当前用户名，即当前登录者的用户名
         let username = getCurrUserInfo().username;
-        var message = ' <div class="panel panel-default layui-row other">' +
+        let message = ' <div class="panel panel-default layui-row other">' +
             '  <div class="panel-heading"><img src="' + info.profile + '" alt=""></div>' +
             '        <div class="panel-body">' +
             '            ' + parse.content +
             '        </div>' +
-            '    </div>'
+            '    </div>';
+
         messageList.append($(message))
         messageList.scrollTop($("#messageList")[0].scrollHeight);
 
@@ -103,7 +111,7 @@
             isRead = true
         }
 
-        saveSnapShot(username, sender, parse.content, isRead)
+        saveSnapShot(username, sender, parse.content, isRead, info.profile)
     }
 
     layui.use('form', function () {
@@ -112,6 +120,7 @@
         form.on('submit(sender)', function (data) {
             let sender = localStorage.getItem("sender");
             let receiver = localStorage.getItem("currChatIng");
+            var friendInfo = getFriendInfo(receiver);
             let content = $("#content").val();
             let type = messageType.MESSAGE_TYPE_NORMAL
             let messagePayload = new MessagePayload(sender, receiver, content, type)
@@ -128,6 +137,7 @@
             // 重置输入框
             $("#reset").trigger("click")
             setHistory(sender, receiver, content, "mine")
+            saveSnapShot(sender, receiver, content, true, friendInfo.profile)
             return false;
         });
     })

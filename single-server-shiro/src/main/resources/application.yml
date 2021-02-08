@@ -7,7 +7,7 @@ spring:
     username: im
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/websocket-im?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://119.23.78.32:3306/websocket-im?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
 websocket:
   endpoint: /ws
   cross-origins:
