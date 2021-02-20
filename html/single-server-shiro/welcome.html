@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>欢迎页</title>
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/layui/layui.all.js"></script>
     <link href="../common/layui/css/layui.css" rel="stylesheet">
@@ -25,7 +25,7 @@
     import {setHistory} from "../common/js/history.js"
     import {saveSnapShot, loadSnapShot} from "../common/js/snapshot.js";
     import {builderFriendHtml} from "../common/js/friend.js";
-
+    let iframeDom
     $(() => {
         var item = localStorage.getItem("token");
         if (item === null || item === undefined || item.length === 0) {
@@ -48,7 +48,14 @@
                 offset: 'rb',
                 anim: 5,
                 isOutAnim: false,
-                content: './friends.html'
+                content: './friends.html',
+                end: () => {
+                    IM.socket.onmessage = onMessage
+                },
+                success: function(layero, index) {
+                    iframeDom = layer.getChildFrame('#snapShortList', index);
+                    localStorage.setItem("friendsIframeIndex", index)
+                }
             });
         })
 
@@ -92,7 +99,7 @@
                 isRead = true
             }
             saveSnapShot(username, sender, parse.content, isRead, info.profile)
-            loadSnapShot()
+            loadSnapShot(iframeDom)
         }
     })
 </script>

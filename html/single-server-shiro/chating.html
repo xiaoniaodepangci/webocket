@@ -10,6 +10,7 @@
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/IM.js"></script>
     <script src="../common/config.js"></script>
+    <script type="text/javascript" src="../common/layer/layer.js"></script>
 </head>
 <body>
 <div class="chatIngBox">
@@ -32,10 +33,11 @@
 <script type="module">
     import {getFriendInfo, getCurrUserInfo, getRemoteHistory, getCurrChatIng} from '../common/common.js'
     import {setHistory, getHistory} from "../common/js/history.js"
-    import {saveSnapShot} from "../common/js/snapshot.js";
+    import {saveSnapShot, messageSign} from "../common/js/snapshot.js";
 
     let messageList;
     $(() => {
+        messageSign()
         messageList = $('#messageList')
         parent.window.IM.socket.onmessage = onMessage
         let currUserInfo = getCurrUserInfo();

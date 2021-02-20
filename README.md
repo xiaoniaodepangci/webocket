@@ -10,9 +10,13 @@ github: https://github.com/xiaoniaodepangci/websocket-woll
 ~~~
 com.hc     
 ├── html                  // 前端模块文件
-├── single-server         // 单机模式
-├── single-server-shiro   // 单机shiro权限
-├──pom.xml                // 公共依赖
+├── cluster-server-oauth2 // 集群模式-使用oauth2解决授权问题 (还没写)
+├── cluster-server-security // 集群模式-使用session共享 （还没写）
+├── single-server         // 单机的没有权限只是一个demo （完成了）
+├── single-server-shiro   // 单机shiro权限 (进行中)
+├── single-server-security  // 单机的spring-security（还没写）
+├── common                // 公共模块（目前只有mp的代码生成器）
+├──pom.xml                // 
 ├──
 ~~~
 每个模块下面都有相应的README.md, 没有README的就是这个模块还没写

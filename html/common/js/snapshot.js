@@ -1,4 +1,4 @@
-import {isNotNull, getCurrUserInfo, getFriendInfo} from "../common.js";
+import {isNotNull, getCurrUserInfo, getFriendInfo,getCurrChatIng} from "../common.js";
 import {chatIngPage} from "./friend.js";
 
 const key_per = 'chat_snapshot_'
@@ -32,11 +32,15 @@ function snapShotListHtmlBuilder(item) {
     }
 }
 
+/**
+ * 加载消息列表
+ * @param dom 消息列表的dom元素
+ */
 export function loadSnapShot(dom) {
     let username = getCurrUserInfo().username;
     let snapshotList = getUserChatSnapshot(username)
     let snapShotListHtml = "";
-    let $_dom = $(dom)
+    let $_dom = typeof (dom) === 'string' ? $(dom) : dom
     $_dom.empty();
     for (let i = 0; i < snapshotList.length; i++) {
         let item = snapshotList[i];
@@ -114,6 +118,20 @@ export function getUserChatSnapshot(username) {
     return snapShotList;
 }
 
+/**
+ * 点击消息列表后 将消息标定为已读
+ */
+export function messageSign() {
+    let username = getCurrUserInfo().username;
+    let currChatIng = getCurrChatIng();
+    let snapshotList = getUserChatSnapshot(username)
+    snapshotList.filter(item => {
+        return item.friendUsername === currChatIng
+    })
+    saveSnapShot(username,currChatIng,snapshotList[0].content,true,snapshotList[0].friendProfile)
+    let index = localStorage.getItem("friendsIframeIndex");
+    loadSnapShot(layer.getChildFrame('#snapShortList', index))
+}
 
 class SnapShot {
     /**

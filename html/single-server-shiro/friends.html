@@ -66,8 +66,8 @@
         <li class="">好友列表</li>
     </ul>
     <div class="layui-tab-content">
-        <div class="layui-tab-item" id="snapShortList"></div>
-        <div class="layui-tab-item layui-show" id="friendList"></div>
+        <div class="layui-tab-item layui-show" id="snapShortList"></div>
+        <div class="layui-tab-item " id="friendList"></div>
     </div>
 </div>
 
@@ -78,9 +78,10 @@
     import {loadSnapShot} from "../common/js/snapshot.js";
     import {builderFriendHtml} from "../common/js/friend.js";
     $(() => {
-        loadSnapShot('#snapShortList')
+
         //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
         layui.use('element', function () {
+            loadSnapShot('#snapShortList')
             let element = layui.element;
             element.on('tab(tabs)', function (data) {
                 console.log(data.index);
