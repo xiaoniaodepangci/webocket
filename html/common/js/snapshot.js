@@ -1,4 +1,4 @@
-import {isNotNull, getCurrUserInfo, getFriendInfo,getCurrChatIng} from "../common.js";
+import {isNotNull, getCurrUserInfo, getFriendInfo, getCurrChatIng} from "../common.js";
 import {chatIngPage} from "./friend.js";
 
 const key_per = 'chat_snapshot_'
@@ -128,9 +128,11 @@ export function messageSign() {
     snapshotList.filter(item => {
         return item.friendUsername === currChatIng
     })
-    saveSnapShot(username,currChatIng,snapshotList[0].content,true,snapshotList[0].friendProfile)
+    if (snapshotList.length !== 0) {
+        saveSnapShot(username, currChatIng, snapshotList[0].content, true, snapshotList[0].friendProfile)
+        loadSnapShot(layer.getChildFrame('#snapShortList', index))
+    }
     let index = localStorage.getItem("friendsIframeIndex");
-    loadSnapShot(layer.getChildFrame('#snapShortList', index))
 }
 
 class SnapShot {

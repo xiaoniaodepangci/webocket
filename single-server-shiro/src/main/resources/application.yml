@@ -5,9 +5,9 @@ spring:
     name: single-server-shiro
   datasource:
     username: im
-    password: 123456
+    password: 11100125Im
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://119.23.78.32:3306/websocket-im?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://rm-bp1e45u18p77qz3l7eo.mysql.rds.aliyuncs.com:3306/websocket-im?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
 websocket:
   endpoint: /ws
   cross-origins:

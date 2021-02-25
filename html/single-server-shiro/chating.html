@@ -102,7 +102,9 @@
             '            ' + parse.content +
             '        </div>' +
             '    </div>';
-
+        if (messageList === null || messageList === undefined) {
+            messageList = $('#messageList')
+        }
         messageList.append($(message))
         messageList.scrollTop($("#messageList")[0].scrollHeight);
 
