@@ -2,7 +2,7 @@ import {isNotNull, getCurrUserInfo, getFriendInfo, getCurrChatIng} from "../comm
 import {chatIngPage} from "./friend.js";
 
 const key_per = 'chat_snapshot_'
-
+let layer = layui.layer
 /**
  * 构建单个聊天快照的dom
  *
@@ -122,6 +122,7 @@ export function getUserChatSnapshot(username) {
  * 点击消息列表后 将消息标定为已读
  */
 export function messageSign() {
+    let index = localStorage.getItem("friendsIframeIndex");
     let username = getCurrUserInfo().username;
     let currChatIng = getCurrChatIng();
     let snapshotList = getUserChatSnapshot(username)
@@ -132,7 +133,7 @@ export function messageSign() {
         saveSnapShot(username, currChatIng, snapshotList[0].content, true, snapshotList[0].friendProfile)
         loadSnapShot(layer.getChildFrame('#snapShortList', index))
     }
-    let index = localStorage.getItem("friendsIframeIndex");
+
 }
 
 class SnapShot {

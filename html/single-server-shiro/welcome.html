@@ -29,7 +29,7 @@
     $(() => {
         var item = localStorage.getItem("token");
         if (item === null || item === undefined || item.length === 0) {
-            layer.confirm('未登录！即将跳转至登录页', {
+            layui.layer.confirm('未登录！即将跳转至登录页', {
                 btn: ['确定'] //按钮
             }, function () {
                 location.href = "./index.html"
@@ -39,7 +39,7 @@
         }
         builderFriendHtml()
         $("#chatButton").click(() => {
-            layer.open({
+            layui.layer.open({
                 title: 'woll',
                 type: 2,
                 area: ['300px', '450px'],
@@ -50,40 +50,17 @@
                 isOutAnim: false,
                 content: './friends.html',
                 end: () => {
-                    IM.socket.onmessage = onMessage
+                    WebSocketConnection.onMessage = onMessage
                 },
                 success: function(layero, index) {
-                    iframeDom = layer.getChildFrame('#snapShortList', index);
+                    iframeDom = layui.layer.getChildFrame('#snapShortList', index);
                     localStorage.setItem("friendsIframeIndex", index)
                 }
             });
         })
-
-        function onOpen(e) {
-            console.log("aaaaaaaaaaaaa==================>>>>>>>>>>>>>>>>>>>>")
-        }
-
         if (window.WebSocket) {
-            if (IM.socket !== null &&
-                IM.socket !== undefined &&
-                IM.socket.readyState === WebSocket.OPEN) {
-                return false
-            }
-            IM.init(localStorage.getItem("token"), onOpen)
-            IM.socket.onmessage = onMessage
-            $("#wsPort").val(window.wsConfig.wsPort + "?token=" + localStorage.getItem("token"))
-
+            window.webSocketConnection = new WebSocketConnection(window.wsConfig.wsPort + "?token=" + localStorage.getItem("token"))
         }
-
-
-        function onClose(e) {
-
-        }
-
-        function onError(e) {
-
-        }
-
         function onMessage(e) {
             console.log("大页面的接收回调")
             var parse = JSON.parse(e.data);

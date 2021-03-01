@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>chating</title>
-
-    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/layui.all.js"></script>
     <link href="../common/layui/css/layui.css" rel="stylesheet">
     <link href="./css/chating.css" rel="stylesheet">
     <script src="../common/jquery-1.8.3.min.js"></script>
     <script src="../common/IM.js"></script>
+    <script src="../common/js/Utils.js"></script>
     <script src="../common/config.js"></script>
-    <script type="text/javascript" src="../common/layer/layer.js"></script>
 </head>
 <body>
 <div class="chatIngBox">
@@ -34,12 +33,11 @@
     import {getFriendInfo, getCurrUserInfo, getRemoteHistory, getCurrChatIng} from '../common/common.js'
     import {setHistory, getHistory} from "../common/js/history.js"
     import {saveSnapShot, messageSign} from "../common/js/snapshot.js";
-
     let messageList;
     $(() => {
         messageSign()
         messageList = $('#messageList')
-        parent.window.IM.socket.onmessage = onMessage
+        parent.window.webSocketConnection.onMessage = onMessage
         let currUserInfo = getCurrUserInfo();
         let curr = currUserInfo.username;
         let other = localStorage.getItem("currChatIng");
@@ -128,7 +126,7 @@
             let content = $("#content").val();
             let type = messageType.MESSAGE_TYPE_NORMAL
             let messagePayload = new MessagePayload(sender, receiver, content, type)
-            parent.window.IM.send(JSON.stringify(messagePayload))
+            parent.window.webSocketConnection.socket.send(JSON.stringify(messagePayload))
             let currUserInfo = getCurrUserInfo();
             var message = ' <div class="panel panel-default layui-row mine">' +
                 '  <div class="panel-heading"><img src="' + currUserInfo.profile + '" alt=""></div>' +

@@ -44,7 +44,6 @@ public class MyWebSocketHandler implements WebSocketHandler {
     private static Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
 
 
-
     public static Map<String, WebSocketSession> getSessionMap() {
         return sessionMap;
     }
@@ -106,6 +105,7 @@ public class MyWebSocketHandler implements WebSocketHandler {
         }
         // 点对点
         if (MessageConstants.MESSAGE_TYPE_NORMAL.equals(type)) {
+            log.info(" " + sender + "=>" + receiver + "  content=> " + content);
             WebSocketSession localWebSocketSession = sessionMap.getOrDefault(receiver, null);
             if (localWebSocketSession != null) {
                 localWebSocketSession.sendMessage(MessagePayloadUtils.success(sender,

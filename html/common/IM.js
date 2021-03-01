@@ -1,73 +1,59 @@
 
-window.IM = {
-    socket: null,
-    token: '',
-    init: function (token, onOpen) {
-        IM.token = token
-        if (window.WebSocket) {
-            if (IM.socket !== null &&
-                IM.socket !== undefined &&
-                IM.socket.readyState === WebSocket.OPEN) {
-                return false
-            }
-            IM.socket = new WebSocket(window.wsConfig.wsPort + "?token=" + this.token);
-            IM.socket.onopen = onOpen
-            IM.socket.onclose = IM.onClose
-            IM.socket.onerror = IM.onError
-            IM.socket.onmessage = IM.onMessage
-        } else {
+function WebSocketConnection(url) {
+    this.potions = {url: url}
 
-        }
-    },
-    send: function (msg) {
-        if (IM.socket !== null &&
-            IM.socket !== undefined &&
-            IM.socket.readyState === WebSocket.OPEN) {
-            IM.socket.send(msg);
-        } else {
-            IM.init(this.token, onOpen, onClose, onMessage, onError);
-        }
-    },
-    onOpen: function (e) {
-        console.log("kaiqi")
+    this.socket = null
+    this.token = ''
+    this.send = () => {
+    }
+    this.onOpen = () => {
+    }
+    this.onClose = () => {
+    }
+    this.onError = () => {
+    }
+    this.onMessage = () => {
+    }
+    // this.reconnect()
+    // 心跳
+    // this.keepAlive = function () {
+    //     let type = MessageType.MESSAGE_TYPE_HEART_BEAT
+    //     let messagePayload = new MessagePayload("", "", "", type)
+    //     this.socket.send(JSON.stringify(messagePayload))
+    // }
+    this.connectionBuild()
+}
 
-        // setInterval("IM.keepAlive()", 10000)
-
-    },
-    onClose: function (e) {
-
-    },
-    onError: function (e) {
-
-    },
-    onMessage: function (e) {
-
-
-    },
-    keepAlive() {
-        let type = messageType.MESSAGE_TYPE_HEART_BEAT
-        let messagePayload = new MessagePayload("", "", "", type)
-        IM.send(JSON.stringify(messagePayload))
+// 创建socket连接
+WebSocketConnection.prototype.connectionBuild = function () {
+    try {
+        this.socket = new WebSocket(this.potions.url);
+        this.initHandleMethod()
+    } catch (e) {
+        throw e
     }
 }
-
-class MessagePayload {
-    /**
-     * @param sender 发送者
-     * @param receiver 接收者
-     * @param content 消息体
-     * @param type 消息类型
-     * */
-    constructor(sender, receiver, content, type) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.content = content;
-        this.type = type;
+// 初始化websocket事件回调
+WebSocketConnection.prototype.initHandleMethod = function () {
+    this.socket.onopen = () => {
+        this.onOpen();
+        // this.keepAlive()
+    }
+    this.socket.close = () => {
+        this.onClose()
+    }
+    this.socket.onerror = () => {
+        this.onError()
+    }
+    this.socket.onmessage = (e) => {
+        this.onMessage(e)
     }
 }
+WebSocketConnection.prototype.send = function(msg) {
+    this.socket.send(msg);
+};
 
-var messageType = {
-    MESSAGE_TYPE_HEART_BEAT: "heartBeat",
-    MESSAGE_TYPE_NORMAL: "normal",
-    MESSAGE_TYPE_BROADCAST: "broadcast"
+if (window) {
+    window.WebSocketConnection = WebSocketConnection
 }
+
