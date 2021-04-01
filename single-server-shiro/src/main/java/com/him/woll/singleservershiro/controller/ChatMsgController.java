@@ -1,7 +1,7 @@
 package com.him.woll.singleservershiro.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.him.woll.singleservershiro.common.Pageable;
 import com.him.woll.singleservershiro.common.Result;
