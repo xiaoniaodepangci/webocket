@@ -1,1 +1,0 @@
-import {getFriendInfos, setFriendInfos, commonAjax} from "../common.js";
