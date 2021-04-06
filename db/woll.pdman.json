@@ -36,16 +36,76 @@
               "type": "DateTime",
               "remark": "",
               "chnname": "更新时间"
+            },
+            {
+              "name": "user_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "用户id"
+            },
+            {
+              "name": "nick_name",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "昵称"
+            },
+            {
+              "name": "real_name",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "真实姓名"
+            },
+            {
+              "name": "account",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "登录账号"
+            },
+            {
+              "name": "password",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "密码"
+            },
+            {
+              "name": "last_login",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "最后登录时间"
+            },
+            {
+              "name": "fail_count",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "登录失败次数"
+            },
+            {
+              "name": "lock",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "登录锁定"
+            },
+            {
+              "name": "expiration_time",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "登录失败后不可登录的时间"
+            },
+            {
+              "name": "profile",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "头像"
             }
           ],
           "indexs": [],
           "headers": [
             {
-              "fieldName": "chnname",
+              "fieldName": "name",
               "relationNoShow": false
             },
             {
-              "fieldName": "name",
+              "fieldName": "chnname",
               "relationNoShow": false
             },
             {
