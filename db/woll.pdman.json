@@ -41,7 +41,9 @@
               "name": "user_id",
               "type": "DefaultString",
               "remark": "",
-              "chnname": "用户id"
+              "chnname": "用户id",
+              "pk": true,
+              "notNull": true
             },
             {
               "name": "nick_name",
@@ -69,25 +71,25 @@
             },
             {
               "name": "last_login",
-              "type": "DefaultString",
+              "type": "DateTime",
               "remark": "",
               "chnname": "最后登录时间"
             },
             {
               "name": "fail_count",
-              "type": "DefaultString",
+              "type": "Integer",
               "remark": "",
               "chnname": "登录失败次数"
             },
             {
               "name": "lock",
-              "type": "DefaultString",
+              "type": "YesNo",
               "remark": "",
               "chnname": "登录锁定"
             },
             {
               "name": "expiration_time",
-              "type": "DefaultString",
+              "type": "DateTime",
               "remark": "",
               "chnname": "登录失败后不可登录的时间"
             },
@@ -96,6 +98,12 @@
               "type": "DefaultString",
               "remark": "",
               "chnname": "头像"
+            },
+            {
+              "name": "state",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "逻辑删除"
             }
           ],
           "indexs": [],
@@ -146,6 +154,358 @@
             }
           ],
           "chnname": "用户表"
+        },
+        {
+          "title": "im_user_relationship",
+          "fields": [
+            {
+              "name": "revision",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "乐观锁"
+            },
+            {
+              "name": "created_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "创建人"
+            },
+            {
+              "name": "created_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "创建时间"
+            },
+            {
+              "name": "updated_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "更新人"
+            },
+            {
+              "name": "updated_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "更新时间"
+            },
+            {
+              "name": "im_ur_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主键",
+              "pk": true,
+              "notNull": true
+            },
+            {
+              "name": "my_user_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "本人id",
+              "pk": false,
+              "notNull": false
+            },
+            {
+              "name": "friend_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "朋友id",
+              "pk": false,
+              "notNull": false
+            },
+            {
+              "name": "state",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "逻辑删除"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "用户关系表",
+          "remark": "即好友关系表"
+        },
+        {
+          "title": "im_request",
+          "fields": [
+            {
+              "name": "revision",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "乐观锁"
+            },
+            {
+              "name": "created_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "创建人"
+            },
+            {
+              "name": "created_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "创建时间"
+            },
+            {
+              "name": "updated_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "更新人"
+            },
+            {
+              "name": "updated_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "更新时间"
+            },
+            {
+              "name": "im_request_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主键"
+            },
+            {
+              "name": "send_user_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "请求发送方"
+            },
+            {
+              "name": "receive_user_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "请求接收方"
+            },
+            {
+              "name": "sign",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "是否已签收"
+            },
+            {
+              "name": "status",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "是否已结束"
+            },
+            {
+              "name": "state",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "逻辑删除"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "好友申请记录表"
+        },
+        {
+          "title": "im_history",
+          "fields": [
+            {
+              "name": "revision",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "乐观锁"
+            },
+            {
+              "name": "created_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "创建人"
+            },
+            {
+              "name": "created_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "创建时间"
+            },
+            {
+              "name": "updated_by",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "更新人"
+            },
+            {
+              "name": "updated_time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "更新时间"
+            },
+            {
+              "name": "history_id",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "历史记录id"
+            },
+            {
+              "name": "sender",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "发送方"
+            },
+            {
+              "name": "receiver",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "接收方"
+            },
+            {
+              "name": "msg",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "消息体"
+            },
+            {
+              "name": "sign",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "签收状态"
+            },
+            {
+              "name": "status",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "逻辑删除"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "聊天记录表"
         }
       ],
       "graphCanvas": {
@@ -660,7 +1020,9 @@
       }
     ],
     "defaultFieldsType": "2",
-    "javaConfig": {},
+    "javaConfig": {
+      "JAVA_HOME": "C:\\Users\\Administrator\\.jdks\\openjdk-15"
+    },
     "sqlConfig": ";",
     "dbs": [],
     "wordTemplateConfig": ""
