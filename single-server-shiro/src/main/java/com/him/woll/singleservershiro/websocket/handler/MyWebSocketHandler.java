@@ -5,10 +5,9 @@ import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.him.woll.singleservershiro.entity.ChatMsg;
-import com.him.woll.singleservershiro.mapper.ChatMsgMapper;
+import com.him.woll.singleservershiro.entity.ImHistory;
+import com.him.woll.singleservershiro.mapper.ImHistoryMapper;
 import com.him.woll.singleservershiro.websocket.config.IWebSocketConfig;
 import com.him.woll.singleservershiro.websocket.constants.MessageConstants;
 import com.him.woll.singleservershiro.websocket.entity.MessagePayload;
@@ -24,7 +23,6 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,7 +35,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class MyWebSocketHandler implements WebSocketHandler {
     @Autowired
-    private ChatMsgMapper chatMsgMapper;
+    private ImHistoryMapper imHistoryMapper;
+
+
     /**
      * session对应关系
      */
@@ -113,22 +113,22 @@ public class MyWebSocketHandler implements WebSocketHandler {
                         content,
                         MessageConstants.MESSAGE_TYPE_NORMAL));
             }
-            ChatMsg chatMsg = new ChatMsg();
-            chatMsg.setStatus("0");
-            chatMsg.setSender(sender);
-            chatMsg.setReceiver(receiver);
-            chatMsg.setMsg(content);
-            chatMsg.setSignFlag("0");
-            chatMsgMapper.insert(chatMsg);
+            ImHistory history = new ImHistory();
+            history.setState("0");
+            history.setSender(sender);
+            history.setReceiver(receiver);
+            history.setMsg(content);
+            history.setSign("0");
+            imHistoryMapper.insert(history);
             return;
         }
         // 消息签收
         if (MessageConstants.MESSAGE_TYPE_SIGN.equals(type)) {
             JSONArray objects = JSONObject.parseArray(content);
             if (objects.size() != 0) {
-                LambdaUpdateWrapper<ChatMsg> updateWrapper = new LambdaUpdateWrapper<>();
-                updateWrapper.set(ChatMsg::getSignFlag, "1").in(ChatMsg::getId, objects);
-                chatMsgMapper.update(null, updateWrapper);
+                LambdaUpdateWrapper<ImHistory> updateWrapper = new LambdaUpdateWrapper<>();
+                updateWrapper.set(ImHistory::getSign, "1").in(ImHistory::getHistoryId, objects);
+                imHistoryMapper.update(null, updateWrapper);
                 // 签收回执
                 webSocketSession.sendMessage(MessagePayloadUtils.success(sender,
                         receiver,

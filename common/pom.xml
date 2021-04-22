@@ -14,6 +14,7 @@
     <modules>
         <module>common-redis</module>
         <module>common-gen</module>
+        <module>common-entity</module>
     </modules>
 
     <dependencies>

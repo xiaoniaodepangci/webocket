@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.him.woll.singleservershiro.mapper.ImUserRelationshipMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.him.woll.singleservershiro.entity.ImUserRelationship">
+        <id column="im_ur_id" property="imUrId" />
+        <result column="revision" property="revision" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="my_user_id" property="myUserId" />
+        <result column="friend_id" property="friendId" />
+        <result column="state" property="state" />
+    </resultMap>
+
+</mapper>

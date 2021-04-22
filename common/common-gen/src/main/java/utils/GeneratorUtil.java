@@ -78,7 +78,7 @@ public class GeneratorUtil {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表,不加则全部生成
-        strategy.setInclude(new String[]{"msg_history"});
+        strategy.setInclude("im_group", "im_group_user", "im_history", "im_request", "im_user_relationship", "sys_dept", "sys_dept_user", "sys_user");
         //排除生成的表(排除表设置和生成表设置只能二选一)
         //实体类是否生成lombok模型
         strategy.setEntityLombokModel(true);
@@ -93,7 +93,7 @@ public class GeneratorUtil {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.him.woll.singleservershiro");
+        pc.setParent("com.him.woll.common.entity");
         mpg.setPackageInfo(pc);
         mpg.execute();
 
